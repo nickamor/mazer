@@ -16,3 +16,9 @@ $(TARGET): $(OBJECTS)
 
 %.o: %.cpp %.h
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
+
+# test all, test : build and run all tests
+# test X : build and run specific test
+test:
+	$(CXX) -o FileReader.test -D __TEST__ FileReader.cpp
+	./FileReader.test

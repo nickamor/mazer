@@ -66,3 +66,13 @@ void FileReader::read() {
 		}
 	}
 }
+
+#ifdef __TEST__
+int main(int argc, char const *argv[])
+{
+	FileReader reader("maze.bin");
+	reader.read();
+	
+	return 0;
+}
+#endif
