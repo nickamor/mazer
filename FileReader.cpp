@@ -2,18 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "FileReader.h"
-
-struct Edge {
-	struct Cell {
-		int x, y;
-	} cellA, cellB;
-};
-
-struct Maze
-{
-	int width, height, num_edges;
-	std::vector<Edge> edges;
-};
+#include "Maze.h"
 
 FileReader::FileReader(const char * filename) : filename(filename) {
 
@@ -23,28 +12,8 @@ FileReader::~FileReader() {
 
 }
 
-Maze maze;
-
-std::ostream & operator<<(std::ostream & output, const FileReader & fileReader) {
-	output << "Maze" << std::endl;
-
-	output << "width: " << maze.width << std::endl;
-	output << "height: " << maze.height << std::endl;
-	output << "edges: " << maze.num_edges << std::endl;
-
-	for (int i = 0; i < maze.num_edges; ++i) {
-		Edge &edge = maze.edges[i];
-		output << "Edge #" << i << std::endl;
-		output << "\t{";
-		output << edge.cellA.x << ", " << edge.cellA.y << ", ";
-		output << edge.cellB.x << ", " << edge.cellB.y;
-		output << "}" << std::endl;
-	}
-
-	return output;
-}
-
-void FileReader::read() {
+Maze FileReader::read() {
+	Maze maze;
 	std::ifstream filestream(filename, std::ios::binary);
 
 	if (filestream.is_open()) {
@@ -63,15 +32,19 @@ void FileReader::read() {
 			maze.edges.push_back(edge);
 		}
 	}
+
+	return maze;
 }
 
 #ifdef __TEST__
 int main(int argc, char const *argv[])
 {
 	FileReader reader("maze.bin");
-	reader.read();
+	Maze maze = reader.read();
 
-	std::cout << reader;
+	std::cout << "Maze width: " << maze.width;
+	std::cout << ", height: " << maze.height;
+	std::cout << ", edges: " << maze.num_edges << std::endl;
 	
 	return 0;
 }
