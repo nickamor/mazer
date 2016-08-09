@@ -1,5 +1,5 @@
 CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic
-LDFLAGS  = -g
+LDFLAGS  = -lboost_program_options -g
 
 TARGET = mazer
 OBJECTS = mazer.o FileReader.o
