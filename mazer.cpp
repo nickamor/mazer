@@ -1,5 +1,5 @@
 #include <iostream>
-#include <boost/program_options.h>
+#include <boost/program_options.hpp>
 #include "FileReader.h"
 
 int main(int argc, char const *argv[]) {
