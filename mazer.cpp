@@ -2,8 +2,8 @@
 #include "FileReader.h"
 
 int main(int argc, char const *argv[]) {
-	if (argc > 2) {
-		std::cout << "Usage: maze.bin" << std::endl;
+	if (argc < 2) {
+		std::cout << "Usage: mazer maze.bin" << std::endl;
 
 		return 1;
 	}
