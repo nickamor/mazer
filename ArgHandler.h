@@ -1,8 +1,8 @@
-#ifndef __ARGHANDLER_H__
-#define __ARGHANDLER_H__
-
 #include <memory>
 #include <vector>
+
+#ifndef __ARGHANDLER_H__
+#define __ARGHANDLER_H__
 
 class Task {
 public:
