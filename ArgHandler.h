@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include "Maze.h"
 
 #ifndef __ARGHANDLER_H__
 #define __ARGHANDLER_H__
@@ -11,6 +12,14 @@ public:
     virtual void run() = 0;
 
     virtual bool isFinalTask();
+
+    virtual bool isInputTask();
+
+    virtual bool isOutputTask();
+
+    virtual std::shared_ptr<Maze> read();
+
+    virtual void write(std::shared_ptr<Maze> maze);
 };
 
 class HelpTask : public Task {

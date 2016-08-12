@@ -13,7 +13,7 @@ public:
 // 	filestream.read(reinterpret_cast<char*>(&buffer), sizeof buffer);
 // }
 
-FileReader::FileReader(const char *filename) : filename(filename) {
+FileReader::FileReader(const std::string &filename) : filename(filename) {
 
 }
 

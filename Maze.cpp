@@ -1,3 +1,4 @@
+#include "FileReader.h"
 #include "Maze.h"
 
 std::ostream &operator<<(std::ostream &output, const Maze &maze) {
@@ -22,5 +23,5 @@ std::ostream &operator<<(std::ostream &output, const Maze &maze) {
 std::shared_ptr<Maze> Maze::fromFile(const std::string &filename) {
     auto reader = std::make_shared<FileReader>(filename);
 
-    return reader.read();
+    return reader->read();
 }

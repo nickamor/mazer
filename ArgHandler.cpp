@@ -15,6 +15,22 @@ bool Task::isFinalTask() {
     return false;
 }
 
+bool Task::isInputTask() {
+    return false;
+}
+
+bool Task::isOutputTask() {
+    return false;
+}
+
+std::shared_ptr<Maze> Task::read() {
+    return nullptr;
+}
+
+void Task::write(std::shared_ptr<Maze> maze) {
+
+}
+
 void HelpTask::run() {
 
 }

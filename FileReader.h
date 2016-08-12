@@ -12,7 +12,7 @@ class FileReader {
     friend std::ostream &operator<<(std::ostream &, const FileReader &);
 
 public:
-    FileReader(const char *filename);
+    FileReader(const std::string &filename);
 
     ~FileReader();
 
