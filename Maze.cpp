@@ -18,3 +18,9 @@ std::ostream & operator<<(std::ostream & output, const Maze & maze) {
 
 	return output;
 }
+
+std::shared_ptr<Maze> Maze::fromFile(const std::string & filename) {
+	auto reader = std::make_shared<FileReader>(filename);
+
+	return reader.read();
+}

@@ -1,5 +1,7 @@
 #include <ostream>
 #include <vector>
+#include <string>
+#include <memory>
 
 #ifndef __MAZE_H__
 #define __MAZE_H__
@@ -16,6 +18,8 @@ struct Maze
 	std::vector<Edge> edges;
 
     friend std::ostream & operator<<(std::ostream &, const Maze &);
+
+	static std::shared_ptr<Maze> fromFile(const std::string & filename);
 };
 
 
