@@ -1,5 +1,5 @@
 CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic -I/usr/local/include
-LDFLAGS  = -lboost_program_options -g
+LDFLAGS  = -lboost_program_options -g -L/usr/local/lib
 
 TARGET = mazer
 OBJECTS = mazer.o FileReader.o ArgHandler.o
@@ -21,9 +21,6 @@ $(TARGET): $(OBJECTS)
 # test all, test : build and run all tests
 # test X : build and run specific test
 test: $(TEST_TARGETS)
-	for TEST in $^ ; do \
-		./$(TEST) ; \
-	done
 
 %.test: %.cpp
-	$(CXX) -o $@ $(CXXFLAGS) -D __TEST__ $^
+	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $^
