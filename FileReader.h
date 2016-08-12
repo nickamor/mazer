@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <memory>
 #include "Maze.h"
 
 #ifndef __FILEREADER_H__
@@ -14,7 +15,7 @@ public:
 	FileReader(const char * filename);
 	~FileReader();
 	
-	Maze read();
+	std::shared_ptr<Maze> read();
 };
 
 #endif
