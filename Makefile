@@ -1,15 +1,16 @@
-CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic
+CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic -I/usr/local/include
 LDFLAGS  = -lboost_program_options -g
 
 TARGET = mazer
-OBJECTS = mazer.o FileReader.o
+OBJECTS = mazer.o FileReader.o ArgHandler.o
+TEST_TARGETS = FileReader.test ArgHandler.test
 
-.PHONY: all clean
+.PHONY: all clean test
 
 all: mazer
 
 clean:
-	$(RM) $(TARGET) $(OBJECTS)
+	$(RM) $(TARGET) $(OBJECTS) $(TEST_TARGETS)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
@@ -19,6 +20,10 @@ $(TARGET): $(OBJECTS)
 
 # test all, test : build and run all tests
 # test X : build and run specific test
-test:
-	$(CXX) -o FileReader.test -D __TEST__ FileReader.cpp
-	./FileReader.test
+test: $(TEST_TARGETS)
+	for TEST in $^ ; do \
+		./$(TEST) ; \
+	done
+
+%.test: %.cpp
+	$(CXX) -o $@ $(CXXFLAGS) -D __TEST__ $^
