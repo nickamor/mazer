@@ -7,8 +7,13 @@
 
 class MyIfStream : public std::ifstream {
 	public:
-	override 
+	
 };
+
+// // easy read
+// void read<type> (ifstream filestream, type & buffer) {
+// 	filestream.read(reinterpret_cast<char*>(&buffer), sizeof buffer);
+// }
 
 FileReader::FileReader(const char * filename) : filename(filename) {
 
@@ -46,7 +51,7 @@ std::shared_ptr<Maze> FileReader::read() {
 }
 
 #ifdef __TEST__
-int main(int argc, char const *argv[])
+int main(void)
 {
 	FileReader reader("maze.bin");
 	auto maze = reader.read();
