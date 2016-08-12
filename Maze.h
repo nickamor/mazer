@@ -7,19 +7,18 @@
 #define __MAZE_H__
 
 struct Edge {
-	struct Cell {
-		int x, y;
-	} cellA, cellB;
+    struct Cell {
+        int x, y;
+    } cellA, cellB;
 };
 
-struct Maze
-{
-	int width, height, num_edges;
-	std::vector<Edge> edges;
+struct Maze {
+    int width, height, num_edges;
+    std::vector<Edge> edges;
 
-    friend std::ostream & operator<<(std::ostream &, const Maze &);
+    friend std::ostream &operator<<(std::ostream &, const Maze &);
 
-	static std::shared_ptr<Maze> fromFile(const std::string & filename);
+    static std::shared_ptr<Maze> fromFile(const std::string &filename);
 };
 
 

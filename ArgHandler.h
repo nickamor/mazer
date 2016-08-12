@@ -6,23 +6,26 @@
 
 class Task {
 public:
-	virtual ~Task() = 0;
-	virtual void run() = 0;
+    virtual ~Task() = 0;
+
+    virtual void run() = 0;
+
     virtual bool isFinalTask();
 };
 
 class HelpTask : public Task {
-	public:
-	void run();
+public:
+    void run();
+
     bool isFinalTask();
 };
 
 class ArgHandler {
     std::vector<std::shared_ptr<Task> > tasks;
 public:
-	ArgHandler(int argc, char const *argv[]);
+    ArgHandler(int argc, char const *argv[]);
 
-	std::vector<std::shared_ptr<Task> > getTasks();
+    std::vector<std::shared_ptr<Task> > getTasks();
 };
 
 #endif // !__ARGHANDLER_H__
