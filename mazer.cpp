@@ -1,10 +1,9 @@
 
-#include "ArgHandler.h"
+#include "FileReader.h"
+#include "FileWriter.h"
 
-int main(int argc, char const *argv[]) {
-    auto handler = ArgHandler(argc, argv);
+int main(int argc, char *argv[]) {
 
-//	auto reader = FileReader(argv[1]);
 
     return 0;
 }

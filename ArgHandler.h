@@ -29,6 +29,18 @@ public:
     bool isFinalTask();
 };
 
+class ReadFileTask : public Task {
+    bool isInputTask();
+};
+
+class WriteFileTask : public Task {
+    bool isOutputTask();
+};
+
+class WriteVectorTask : public Task {
+    bool isOutputTask();
+};
+
 class ArgHandler {
     std::vector<std::shared_ptr<Task> > tasks;
 public:

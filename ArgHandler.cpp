@@ -39,6 +39,18 @@ bool HelpTask::isFinalTask() {
     return true;
 }
 
+bool ReadFileTask::isInputTask() {
+    return true;
+}
+
+bool WriteFileTask::isOutputTask() {
+    return true;
+}
+
+bool WriteVectorTask::isOutputTask() {
+    return true;
+}
+
 ArgHandler::ArgHandler(int argc, char const *argv[]) {
     po::options_description desc("Allowed options");
 
