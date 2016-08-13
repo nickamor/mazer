@@ -10,7 +10,7 @@ find_package(Boost 1.53.0 COMPONENTS program_options)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 
-    set(SOURCE_FILES mazer.cpp Maze.cpp ArgHandler.cpp FileReader.cpp)
+    set(SOURCE_FILES mazer.cpp Maze.cpp ArgHandler.cpp FileReader.cpp FileWriter.cpp FileWriter.h VectorWriter.cpp VectorWriter.h Generator.cpp Generator.h)
     add_executable(mazer ${SOURCE_FILES})
 
     target_link_libraries(mazer ${Boost_LIBRARIES})

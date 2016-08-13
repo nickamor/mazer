@@ -49,6 +49,7 @@ std::shared_ptr<Maze> FileReader::read() {
 }
 
 #ifdef __TEST__
+
 int main(void)
 {
     FileReader reader("maze.bin");
@@ -58,6 +59,17 @@ int main(void)
     std::cout << ", height: " << maze->height;
     std::cout << ", edges: " << maze->num_edges << std::endl;
 
+    for (int i = 0; i < maze->num_edges; ++i) {
+        Edge &edge = maze->edges[i];
+
+        std::cout << "Edge = ";
+        std::cout << edge.cellA.x << " ";
+        std::cout << edge.cellA.y << " ";
+        std::cout << edge.cellB.x << " ";
+        std::cout << edge.cellB.y << "." << std::endl;
+    }
+
     return 0;
 }
+
 #endif

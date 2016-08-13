@@ -1,9 +1,25 @@
+#include "ArgHandler.h"
 
-#include "FileReader.h"
-#include "FileWriter.h"
+int main(int argc, char const *argv[]) {
+    auto handler = ArgHandler(argc, argv);
 
-int main(int argc, char *argv[]) {
+    auto tasks = handler.getTasks();
 
+    std::shared_ptr<Maze> maze = nullptr;
+
+    for (auto &task : tasks) {
+        if (task->isInputTask()) {
+            maze = task->read();
+        }
+
+        if (task->isOutputTask()) {
+            task->write(maze);
+        }
+
+        if (task->isFinalTask()) {
+            break;
+        }
+    }
 
     return 0;
 }
