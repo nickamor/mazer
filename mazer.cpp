@@ -1,16 +1,25 @@
-#include <iostream>
-#include "FileReader.h"
+#include "ArgHandler.h"
 
 int main(int argc, char const *argv[]) {
-	if (argc < 2) {
-		std::cout << "Usage: mazer maze.bin" << std::endl;
+    auto handler = ArgHandler(argc, argv);
 
-		return 1;
-	}
+    auto tasks = handler.getTasks();
 
-	auto reader = FileReader(argv[1]);
+    std::shared_ptr<Maze> maze = nullptr;
 
-	reader.read();
+    for (auto &task : tasks) {
+        if (task->isInputTask()) {
+            maze = task->read();
+        }
 
-	return 0;
+        if (task->isOutputTask()) {
+            task->write(maze);
+        }
+
+        if (task->isFinalTask()) {
+            break;
+        }
+    }
+
+    return 0;
 }

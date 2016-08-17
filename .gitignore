@@ -33,3 +33,7 @@ mazer
 # Data
 *.bin
 *.svg
+*.maze
+
+# VS Code metadata
+.vscode/
