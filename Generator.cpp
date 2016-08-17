@@ -9,9 +9,9 @@ Generator::Generator(int, int, int) {
 }
 
 std::shared_ptr<Maze> Generator::generate() {
-
+    return nullptr;
 }
 
 std::shared_ptr<Maze> AldousBroderGenerator::generate() {
-
+    return nullptr;
 }

@@ -10,10 +10,10 @@ int main(int argc, char const *argv[]) {
     for (auto &task : tasks) {
         if (task->isInputTask()) {
             maze = task->read();
-        }
-
-        if (task->isOutputTask()) {
+        } else if (task->isOutputTask()) {
             task->write(maze);
+        } else {
+            task->run();
         }
 
         if (task->isFinalTask()) {
