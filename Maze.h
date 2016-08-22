@@ -7,12 +7,12 @@
 #define __MAZE_H__
 
 struct Edge {
-    struct Cell {
+    struct {
         int x, y;
     } cellA, cellB;
 };
 
-struct Maze {
+class Maze {
     int width, height, num_edges;
     std::vector<Edge> edges;
 
@@ -23,6 +23,7 @@ struct Maze {
 
     friend class FileReader;
     friend class FileWriter;
+    friend class VectorWriter;
 };
 
 #endif

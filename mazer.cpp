@@ -1,25 +1,37 @@
 #include "ArgHandler.h"
+#include "FileReader.h"
+#include "VectorWriter.h"
 
-int main(int argc, char const *argv[]) {
-    auto handler = ArgHandler(argc, argv);
+int main (void) {
+    auto reader = FileReader("maze.bin");
 
-    auto tasks = handler.getTasks();
+    auto maze = reader.read();
 
-    std::shared_ptr<Maze> maze = nullptr;
+    auto writer = VectorWriter("test.svg");
 
-    for (auto &task : tasks) {
-        if (task->isInputTask()) {
-            maze = task->read();
-        } else if (task->isOutputTask()) {
-            task->write(maze);
-        } else {
-            task->run();
-        }
-
-        if (task->isFinalTask()) {
-            break;
-        }
-    }
-
-    return 0;
+    writer.write(maze);
 }
+
+//int main(int argc, char const *argv[]) {
+//    auto handler = ArgHandler(argc, argv);
+//
+//    auto tasks = handler.getTasks();
+//
+//    std::shared_ptr<Maze> maze = nullptr;
+//
+//    for (auto &task : tasks) {
+//        if (task->isInputTask()) {
+//            maze = task->read();
+//        } else if (task->isOutputTask()) {
+//            task->write(maze);
+//        } else {
+//            task->run();
+//        }
+//
+//        if (task->isFinalTask()) {
+//            break;
+//        }
+//    }
+//
+//    return 0;
+//}

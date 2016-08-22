@@ -2,8 +2,8 @@ CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic -I/usr/local/include
 LDFLAGS  = -lboost_program_options -g -L/usr/local/lib
 
 TARGET = mazer
-OBJECTS = mazer.o FileReader.o ArgHandler.o
-TEST_TARGETS = FileReader.test ArgHandler.test
+OBJECTS = mazer.o ArgHandler.o FileReader.o FileWriter.o VectorWriter.o
+TEST_TARGETS = ArgHandler.test FileReader.test  
 
 .PHONY: all clean test
 
@@ -23,4 +23,4 @@ $(TARGET): $(OBJECTS)
 test: $(TEST_TARGETS)
 
 %.test: %.cpp
-	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $^
+	$(CXX) $(LDFLAGS) FileReader.o -o $@ $(CXXFLAGS) -D __TEST__ $^

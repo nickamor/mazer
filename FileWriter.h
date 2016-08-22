@@ -10,7 +10,7 @@ class FileWriter {
     std::string filename;
 public:
     FileWriter(const std::string &filename);
-    void write(std::shared_ptr <Maze> maze);
+    void write(const std::shared_ptr <Maze> &maze);
 };
 
 
