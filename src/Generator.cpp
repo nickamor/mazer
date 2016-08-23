@@ -15,3 +15,9 @@ std::shared_ptr<Maze> Generator::generate() {
 std::shared_ptr<Maze> AldousBroderGenerator::generate() {
     return nullptr;
 }
+
+#ifdef __TEST__
+
+int main() {}
+
+#endif

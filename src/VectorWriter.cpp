@@ -36,17 +36,15 @@ void VectorWriter::write(const std::shared_ptr<Maze> &maze) {
 
 #ifdef __TEST__
 
-#include "FileReader.h"
-
 int main(void) {
 
-    auto reader = FileReader("small.maze");
+    // auto reader = FileReader("small.maze");
 
-    auto maze = reader.read();
+    // auto maze = reader.read();
 
-    auto writer = VectorWriter("test.svg");
+    // auto writer = VectorWriter("test.svg");
 
-    writer.write();
+    // writer.write(maze);
 
 }
 

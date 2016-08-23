@@ -2,6 +2,8 @@
 #include "FileReader.h"
 #include "VectorWriter.h"
 
+#ifndef __TEST__
+
 int main (void) {
     auto reader = FileReader("maze.bin");
 
@@ -35,3 +37,10 @@ int main (void) {
 //
 //    return 0;
 //}
+
+#else
+
+int main() {}
+
+#endif
+

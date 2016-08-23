@@ -13,13 +13,13 @@ struct Edge {
 };
 
 class Maze {
+private:
     int width, height, num_edges;
     std::vector<Edge> edges;
 
+public:
     // Print maze information
     friend std::ostream &operator<<(std::ostream &, const Maze &);
-
-    static std::shared_ptr<Maze> fromFile(const std::string &filename);
 
     friend class FileReader;
     friend class FileWriter;

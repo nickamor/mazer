@@ -30,16 +30,12 @@ void FileWriter::write(const std::shared_ptr<Maze> &maze) {
 
 #ifdef __TEST__
 
-#include "FileReader.h"
-
 int main(void) {
-    auto reader = FileReader("maze.bin");
+    // auto maze = std::make_shared<Maze>();
 
-    auto maze = reader.read();
+    // auto writer = FileWriter("maze2.bin");
 
-    auto writer = FileWriter("maze2.bin");
-
-    writer.write(maze);
+    // writer.write(maze);
 }
 
 #endif //__TEST__

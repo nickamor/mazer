@@ -7,6 +7,7 @@
 #define __FILEREADER_H__
 
 class FileReader {
+private:
     std::string filename;
 
     friend std::ostream &operator<<(std::ostream &, const FileReader &);
