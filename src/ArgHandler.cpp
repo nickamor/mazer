@@ -1,4 +1,5 @@
 #include <boost/program_options.hpp>
+#include <iostream>
 #include "ArgHandler.h"
 
 namespace po = boost::program_options;
@@ -27,27 +28,59 @@ std::shared_ptr<Maze> Task::read() {
     return nullptr;
 }
 
-void Task::write(std::shared_ptr<Maze> maze) {
+void Task::write(std::shared_ptr<Maze>) {
+
+}
+
+HelpTask::HelpTask(po::options_description desc) : desc(desc) {
 
 }
 
 void HelpTask::run() {
-
+    std::cout << desc << std::endl;
 }
 
 bool HelpTask::isFinalTask() {
     return true;
 }
 
+IOTask::IOTask(std::string filename) : filename(filename) {
+
+}
+
+ReadFileTask::ReadFileTask(std::string filename) : IOTask(filename) {
+
+}
+
 bool ReadFileTask::isInputTask() {
     return true;
+}
+
+WriteFileTask::WriteFileTask(std::string filename) : IOTask(filename) {
+
 }
 
 bool WriteFileTask::isOutputTask() {
     return true;
 }
 
+WriteVectorTask::WriteVectorTask(std::string filename) : IOTask(filename) {
+
+}
+
 bool WriteVectorTask::isOutputTask() {
+    return true;
+}
+
+GenerateTask::GenerateTask(int, int, int) {
+
+}
+
+GenerateTask::~GenerateTask() {
+
+}
+
+bool GenerateTask::isInputTask() {
     return true;
 }
 
@@ -65,19 +98,36 @@ ArgHandler::ArgHandler(int argc, char const *argv[]) {
     po::store(po::parse_command_line(argc, argv, desc), map);
     po::notify(map);
 
-    if (map.count("help")) {
-        tasks.push_back(std::make_shared<HelpTask>());
+    if (map.size() == 0 || map.count("help")) {
+        tasks.push_back(std::make_shared<HelpTask>(desc));
+
+        return;
     }
 
-    // if (map.count("lb")) {
-    // 	std::cout << "Loading file " << map["lb"].as<std::string>() << std::endl;
-    // } else if (map.count("g")) {
-    // 	auto values = map["g"].as<std::vector<int> >();
-    // 	std::cout << "Generating map with seed %d, width %d and height %d" << values[0] << values[1] << values[2] << std::endl;
-    // } else {
-    // 	std::cout << "No file loaded." << std::endl;
-    // 	return 1;
-    // }
+    if (map.count("g")) {
+        auto values = map["g"].as<std::vector<int> >();
+
+        if (values.size() != 3) {
+            throw new std::string("Invalid arguments");
+        }
+
+        tasks.push_back(std::make_shared<GenerateTask>(values[0], values[1], values[2]));
+    }
+
+    if (map.count("lb")) {
+        std::string filename = map["lb"].as<std::string>();
+        tasks.push_back(std::make_shared<ReadFileTask>(filename));
+    }
+
+    if (map.count("sb")) {
+        std::string filename = map["sb"].as<std::string>();
+        tasks.push_back(std::make_shared<WriteFileTask>(filename));
+    }
+
+    if (map.count("sv")) {
+        std::string filename = map["sv"].as<std::string>();
+        tasks.push_back(std::make_shared<WriteVectorTask>(filename));
+    }
 }
 
 std::vector<std::shared_ptr<Task> > ArgHandler::getTasks() {

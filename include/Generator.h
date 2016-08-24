@@ -14,8 +14,11 @@ public:
     virtual std::shared_ptr<Maze> generate() = 0;
 };
 
-class AldousBroderGenerator {
+class AldousBroderGenerator : public Generator {
+public:
+    AldousBroderGenerator(int, int, int);
 
+    std::shared_ptr<Maze> generate();
 };
 
 
