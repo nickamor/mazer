@@ -15,13 +15,15 @@ void VectorWriter::write(const std::shared_ptr<Maze> &maze) {
 
     int &w = maze->width, &h = maze->height;
 
+    float stroke_width = 0.05;
+
     out << "<svg viewBox='0 0 " << w << " " << h << "' width='500' height='500' xmlns='http://www.w3.org/2000/svg'>"
         << std::endl;
 
     out << "<rect width='" << w << "' height='" << h << "' style='fill: black' />" << std::endl;
 
     for (auto& edge : maze->edges) {
-        out << "<line stroke='white' stroke-width='0.005' ";
+        out << "<line stroke='white' stroke-width='1' ";
         out << "x1='" << edge.cellA.x << "' ";
         out << "y1='" << edge.cellA.y << "' ";
         out << "x2='" << edge.cellB.x << "' ";
