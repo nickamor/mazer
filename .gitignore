@@ -27,7 +27,7 @@
 *.exe
 *.out
 *.app
-*.test
+tests/*
 mazer
 
 # Data
