@@ -9,8 +9,10 @@
 #define MAZER_GENERATOR_H
 
 class Generator {
+protected:
+	int seed, width, height;
 public:
-    Generator(int, int, int);
+    Generator(int seed = -1, int width = 50, int height = 50);
     virtual std::shared_ptr<Maze> generate() = 0;
 };
 

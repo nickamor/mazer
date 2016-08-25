@@ -10,7 +10,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     include_directories(include)
 
-    set(SOURCE_FILES src/main.cpp src/Maze.cpp src/ArgHandler.cpp src/FileReader.cpp src/FileWriter.cpp src/VectorWriter.cpp src/Generator.cpp)
+    set(SOURCE_FILES src/main.cpp src/Maze.cpp src/ArgHandler.cpp src/FileReader.cpp src/FileWriter.cpp src/VectorWriter.cpp src/Generator.cpp src/Random.cpp include/Random.h)
     add_executable(mazer ${SOURCE_FILES})
 
     target_link_libraries(mazer ${Boost_LIBRARIES})
