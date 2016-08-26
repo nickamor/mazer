@@ -2,20 +2,20 @@
 ## Nick Amor 2016
 
 # Compiler options
-CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic -I/usr/local/include -Iinclude
-LDFLAGS  = -lboost_program_options -g -L/usr/local/lib 
+CXXFLAGS := -std=c++14 -Wall -Wextra -Wfatal-errors -pedantic -I/usr/local/include -Iinclude
+LDFLAGS  := -lboost_program_options -g -L/usr/local/lib 
 
 # Directories
-SRCDIR = src
-INCLUDEDIR = include
-BUILDDIR = build
-TESTDIR = tests
+SRCDIR := src
+INCLUDEDIR := include
+BUILDDIR := build
+TESTDIR := tests
 
 # Output files
-TARGET = mazer
-SOURCES = $(wildcard $(SRCDIR)/*.cpp)
-OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
-TEST_TARGETS = $(patsubst $(SRCDIR)/%.cpp,$(TESTDIR)/%,$(SOURCES))
+TARGET := mazer
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
+TEST_TARGETS := $(patsubst $(SRCDIR)/%.cpp,$(TESTDIR)/%,$(SOURCES))
 
 .PHONY: all clean test
 
