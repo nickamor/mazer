@@ -74,6 +74,10 @@ namespace mazer {
         cell &cell_at(int x, int y);
 
         void add_edge(int x1, int y1, int x2, int y2);
+
+        void add_link(int x1, int y1, int x2, int y2);
+
+        void add_exits();
     };
 
     /**

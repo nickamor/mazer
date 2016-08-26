@@ -34,11 +34,21 @@ void maze::builder::add_edge(int x1, int y1, int x2, int y2) {
     // west
 }
 
+void maze::builder::add_exits() {
+    
+}
+
+void maze::builder::add_link(int, int, int, int) {
+
+}
+
 std::shared_ptr<maze> maze::builder::to_maze() {
     return nullptr;
 }
 
 #ifdef __TEST__
+
+#include <iostream>
 
 void test_add_edges() {
     auto builder = maze::builder(2, 2, true);
@@ -69,7 +79,7 @@ void test_add_edges() {
 
     auto maze = builder.to_maze();
 
-    cout << maze << endl;
+    std::cout << maze << std::endl;
 }
 
 void test_add_links() {
@@ -83,7 +93,7 @@ void test_add_links() {
 
     auto maze = builder.to_maze();
 
-    cout << maze << endl;
+    std::cout << maze << std::endl;
 }
 
 int main() {

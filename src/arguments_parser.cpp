@@ -184,10 +184,6 @@ int main(void) {
 
     for (auto & task : tasks) {
         task->run();
-
-        if (task->is_final_task()) {
-            break;
-        }
     }
 }
 

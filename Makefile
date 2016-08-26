@@ -39,4 +39,3 @@ test: $(TESTDIR) $(TEST_TARGETS)
 
 tests/%: $(SRCDIR)/%.cpp
 	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $<
-	./$@

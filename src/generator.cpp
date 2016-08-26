@@ -54,6 +54,16 @@ std::shared_ptr<maze> aldous_broder_generator::generate() {
 
 #ifdef __TEST__
 
-int main() {}
+#undef __TEST__
+#include "strong_random.cpp"
+#include "maze.cpp"
+#define __TEST__
+
+int main() {
+    auto gen = generator::factory(1, 50, 50);
+    auto m = gen->generate();
+
+    std::cout << m << std::endl;
+}
 
 #endif

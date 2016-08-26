@@ -44,26 +44,13 @@ std::shared_ptr<maze> reader::read() {
 
 #ifdef __TEST__
 
-std::ostream &operator<<(std::ostream &output, const Maze &maze) {
-    output << "Maze" << std::endl;
-
-    output << "width: " << maze.width << std::endl;
-    output << "height: " << maze.height << std::endl;
-    output << "edges: " << maze.num_edges << std::endl;
-
-    for (auto& edge : maze.edges) {
-        output << "\t{";
-        output << edge.cellA.x << ", " << edge.cellA.y << ", ";
-        output << edge.cellB.x << ", " << edge.cellB.y;
-        output << "}" << std::endl;
-    }
-
-    return output;
-}
+#undef __TEST__
+#include "maze.cpp"
+#define __TEST__
 
 int main()
 {
-    FileReader reader("maze.bin");
+    reader reader("maze.bin");
     auto maze = reader.read();
 
     std::cout << maze << std::endl;
