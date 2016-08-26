@@ -1,30 +1,42 @@
-CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic -I/usr/local/include -Iinclude
-LDFLAGS  = -lboost_program_options -g -L/usr/local/lib 
+## mazer - C++ maze generator
+## Nick Amor 2016
 
-TARGET = mazer
-SOURCES = $(wildcard src/*.cpp)
-OBJECTS = $(patsubst src/%.cpp,build/%.o,$(SOURCES))
-TEST_TARGETS = $(patsubst src/%.cpp,tests/%,$(SOURCES))
+# Compiler options
+CXXFLAGS := -std=c++14 -Wall -Wextra -Wfatal-errors -pedantic -I/usr/local/include -Iinclude
+LDFLAGS  := -lboost_program_options -g -L/usr/local/lib 
+
+# Directories
+SRCDIR := src
+INCLUDEDIR := include
+BUILDDIR := build
+TESTDIR := tests
+
+# Output files
+TARGET := mazer
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
+TEST_TARGETS := $(patsubst $(SRCDIR)/%.cpp,$(TESTDIR)/%,$(SOURCES))
 
 .PHONY: all clean test
 
-all: $(TARGET)
+all: $(BUILDDIR) $(TARGET)
 
 clean:
-	$(RM) $(TARGET) $(OBJECTS) $(TEST_TARGETS)
+	$(RM) -rf $(TARGET) $(BUILDDIR) $(TESTDIR)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-build/%.o: src/%.cpp include/%.h
+$(BUILDDIR) $(TESTDIR):
+	mkdir $@
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
-# test all, test : build and run all tests
-# test X : build and run specific test
-test: $(TEST_TARGETS)
+# test : build and run all tests
+# tests/% : build and run specific test
+test: $(TESTDIR) $(TEST_TARGETS)
 
-tests/%: src/%.cpp include/%.h
+tests/%: $(SRCDIR)/%.cpp
 	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $<
-
-echo:
-	@echo $(patsubst src/%.cpp,build/%.o,$(SOURCES))
+	./$@
