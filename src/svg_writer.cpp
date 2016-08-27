@@ -25,7 +25,7 @@ void svg_writer::write(std::shared_ptr<maze> maze) {
     out << "<rect width='" << w << "' height='" << h << "' style='fill: black' />" << std::endl;
 
     for (auto &edge : maze->get_edges()) {
-        out << "<line stroke='white' stroke-width='1' ";
+        out << "<line stroke='white' stroke-width='" << stroke_width << "' ";
         out << "x1='" << edge.src.x << "' ";
         out << "y1='" << edge.src.y << "' ";
         out << "x2='" << edge.dst.x << "' ";

@@ -4,46 +4,97 @@
 
 #include "reader.h"
 #include "maze.h"
+#include <stdexcept>
+#include <iostream>
 
 using namespace mazer;
 
-maze::builder::builder(int width, int height, bool empty) : width(width), height(height) {
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height; ++j) {
-            cells[i].push_back(cell(i, j, empty));
+maze::maze(int width, int height, std::vector<edge> edges) : width(width), height(height), edges(edges) {
+
+}
+
+maze_builder::maze_builder(int width, int height, bool no_links) : width(width), height(height) {
+    cells = new cell[width * height];
+
+    if (!no_links) {
+        // initialise grid cell links
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                cell& cell = *cell_at(i, j);
+
+                std::cout << i << " " << j << std::endl;
+
+                // north
+                if (j > 0) {
+                    std::cout << i << " " << j << std::endl;
+                    cell.north = cell_at(i, j - 1);
+                }
+
+                // east
+                if (i < width - 1) {
+                    cell.east = cell_at(i + 1, j);
+                }
+
+                // south
+                if (j < height - 1) {
+                    cell.south = cell_at(i, j + 1);
+                }
+
+                // west
+                if (i > 0)
+                {
+                    cell.west = cell_at(i - 1, j);
+                }
+            }
         }
     }
 }
 
-maze::builder::cell &maze::builder::cell_at(int x, int y) {
-    return cells[x][y];
+maze_builder::~maze_builder() {
+    delete[] cells;
+    cells = nullptr;
 }
 
-void maze::builder::add_edge(int x1, int y1, int x2, int y2) {
-    // north
-    if (y2 > y1) {
-        cells[x1][y1].north = true;
-        cells[x1][y1 - 1].south = true;
+std::shared_ptr<maze> maze_builder::to_maze() {
+    std::vector<edge> edges;
+
+    for (int i = 0; i < width; ++i)
+    {
+        /* code */
     }
-    // east
-    if (x2 > x1) {
-        cells[x1 - 1][y1].east = true;
-        cells[x1][y1].west = true;
-    }
-    // south
-    // west
-}
 
-void maze::builder::add_exits() {
-    
-}
-
-void maze::builder::add_link(int, int, int, int) {
-
-}
-
-std::shared_ptr<maze> maze::builder::to_maze() {
     return nullptr;
+}
+
+cell* maze_builder::cell_at(int x, int y) {
+    if (!valid_cell(x, y)) {
+        throw std::runtime_error("Cell index out of bounds.");
+    }
+    return &cells[(y * width) + x];
+}
+
+void maze_builder::add_edge(int, int, int, int) {
+    // find and disconnect the cells bisected by this edge
+}
+
+void maze_builder::add_link(int x1, int y1, int x2, int y2) {
+    cell_at(x1, y1)->links.push_back(cell_at(x2, y2));
+    cell_at(x2, y2)->links.push_back(cell_at(x1, y1));
+}
+
+void maze_builder::add_exits() {
+
+}
+
+std::vector<cell *> cell::neighbours() {
+    std::vector<cell *> n;
+
+    if (this->north) n.push_back(this->north);
+    if (this->east) n.push_back(this->east);
+    if (this->south) n.push_back(this->south);
+    if (this->west) n.push_back(this->west);
+
+    return n;
 }
 
 #ifdef __TEST__
@@ -97,6 +148,8 @@ void test_add_links() {
 }
 
 int main() {
+    test_add_edges();
+    test_add_links();
 }
 
 #endif

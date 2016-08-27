@@ -26,20 +26,16 @@ std::shared_ptr<maze> reader::read() {
     filestream.read(reinterpret_cast<char *>(&height), sizeof height);
     filestream.read(reinterpret_cast<char *>(&num_edges), sizeof num_edges);
 
-    maze::builder builder(width, height);
+    std::vector<edge> edges(num_edges);
 
     for (int i = 0; i < num_edges; ++i) {
-        int x1, y1, x2, y2;
-
-        filestream.read(reinterpret_cast<char *>(&x1), sizeof x1);
-        filestream.read(reinterpret_cast<char *>(&y1), sizeof y1);
-        filestream.read(reinterpret_cast<char *>(&x2), sizeof x2);
-        filestream.read(reinterpret_cast<char *>(&y2), sizeof y2);
-
-        builder.add_edge(x1, y1, x2, y2);
+        filestream.read(reinterpret_cast<char *>(&edges[i].src.x), sizeof edges[i].src.x);
+        filestream.read(reinterpret_cast<char *>(&edges[i].src.y), sizeof edges[i].src.y);
+        filestream.read(reinterpret_cast<char *>(&edges[i].dst.x), sizeof edges[i].dst.x);
+        filestream.read(reinterpret_cast<char *>(&edges[i].dst.y), sizeof edges[i].dst.y);
     }
 
-    return builder.to_maze();
+    return std::make_shared<maze>(width, height, edges);
 }
 
 #ifdef __TEST__

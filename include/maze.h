@@ -13,18 +13,35 @@
 namespace mazer {
 
     /**
+     * A single wall in a maze.
+     */
+    struct edge {
+        struct {
+            int x, y;
+        } src, dst;
+    };
+
+    /**
+     * A single section of the maze, with possible adjoining cells.
+     */
+    struct cell {
+        cell *north, *east, *south, *west;
+        std::vector<cell *> links;
+
+        cell() : north(nullptr), east(nullptr), south(nullptr), west(nullptr) {}
+
+        std::vector<cell *> neighbours();
+    };
+
+    /**
      * An immutable set of edges that define the pathways of a maze of defined width and height.
      */
     class maze {
-    public:
-        struct edge;
-
-    private:
         int width, height;
         std::vector<edge> edges;
 
     public:
-        class builder;
+        maze(int width, int height, std::vector<edge> edges);
 
         inline int get_width() {
             return width;
@@ -42,53 +59,33 @@ namespace mazer {
             return edges;
         }
 
+        friend class maze_builder;
+
         // Print maze information
         friend std::ostream &operator<<(std::ostream &, const maze &);
     };
 
     /**
-     * A single wall in a maze.
+     * Used to construct a maze.
      */
-    struct maze::edge {
-        struct {
-            int x, y;
-        } src, dst;
-    };
-
-    /**
-     * Used to define a maze.
-     */
-    class maze::builder {
-    public:
-        struct cell;
-
-    private:
+    class maze_builder {
         int width, height;
-        std::vector<std::vector<cell> > cells;
+        cell *cells;
 
     public:
-        builder(int width, int height, bool empty = true);
+        maze_builder(int width, int height, bool no_links = false);
+        ~maze_builder();
 
         std::shared_ptr<maze> to_maze();
 
-        cell &cell_at(int x, int y);
+        cell *cell_at(int x, int y);
 
         void add_edge(int x1, int y1, int x2, int y2);
-
         void add_link(int x1, int y1, int x2, int y2);
-
         void add_exits();
-    };
 
-    /**
-     * A single section of the maze, with possible adjoining cells.
-     */
-    struct maze::builder::cell {
-        int x, y;
-        bool north, south, east, west;
-
-        cell(int x, int y, bool empty) : x(x), y(y), north(empty), south(empty), east(empty), west(empty) {
-
+        inline bool valid_cell(int x, int y) {
+            return x > 0 && y > 0 && x < width && y < height;
         }
     };
 

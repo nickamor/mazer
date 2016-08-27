@@ -183,6 +183,18 @@ int main(void) {
     auto tasks = args->get_tasks();
 
     for (auto & task : tasks) {
+        if (auto file = std::dynamic_pointer_cast<file_task>(task)) {
+            std::cout << "File task: " << file->get_filename(); << std::endl;
+        }
+
+        if (auto input = std::dynamic_pointer_cast<input_task>(task)) {
+            std::cout << "Input task" << std::endl;
+        }
+
+        if (auto output = std::dynamic_pointer_cast<output_task>(task)) {
+            std::cout << "Output task" << std::endl;
+        }
+
         task->run();
     }
 }
