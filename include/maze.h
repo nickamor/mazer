@@ -7,24 +7,82 @@
 
 #include <ostream>
 #include <vector>
+#include <set>
 #include <string>
 #include <memory>
 
 namespace mazer {
 
     /**
+     * A single wall in a maze.
+     */
+    struct edge {
+        struct point {
+            int x, y;
+
+            point(int x = 0, int y = 0);
+
+            friend inline bool operator==(const point& lhs, const point& rhs) {
+                return (lhs.x == rhs.x && lhs.y == rhs.y);
+            };
+
+            friend inline bool operator!=(const point& lhs, const point& rhs) {
+                return !(lhs == rhs);
+            };
+
+            friend inline bool operator<(const point& lhs, const point& rhs) {
+                return (lhs.x != rhs.x ? lhs.x < rhs.x : lhs.y < rhs.y);
+            };
+
+            friend inline bool operator>(const point& lhs, const point& rhs) {
+                return rhs < lhs;
+            };
+        } src, dst;
+
+        edge(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0);
+
+        friend inline bool operator==(const edge& lhs, const edge& rhs) {
+            return (lhs.src == rhs.src && lhs.dst == rhs.dst);
+        };
+
+        friend inline bool operator!=(const edge& lhs, const edge& rhs) {
+            return !(lhs == rhs);
+        };
+
+        friend inline bool operator<(const edge& lhs, const edge& rhs) {
+            return (lhs.src != rhs.src ? lhs.src < rhs.src : lhs.dst < rhs.dst);
+        };
+
+        friend inline bool operator>(const edge& lhs, const edge& rhs) {
+            return rhs < lhs;
+        };
+    };
+
+    /**
+     * A single section of the maze, with possible adjoining cells.
+     */
+    struct cell {
+        cell *north, *east, *south, *west;
+        std::vector<cell *> links;
+
+        cell();
+
+        std::vector<cell *> neighbours();
+
+        inline void add_link(cell* c) {
+            links.push_back(c);
+        };
+    };
+
+    /**
      * An immutable set of edges that define the pathways of a maze of defined width and height.
      */
     class maze {
-    public:
-        struct edge;
-
-    private:
         int width, height;
-        std::vector<edge> edges;
+        std::set<edge> edges;
 
     public:
-        class builder;
+        maze(int width, int height, std::set<edge> edges);
 
         inline int get_width() {
             return width;
@@ -38,53 +96,35 @@ namespace mazer {
             return edges.size();
         }
 
-        inline std::vector<edge> get_edges() {
+        inline std::set<edge> get_edges() {
             return edges;
         }
 
-        // Print maze information
-        friend std::ostream &operator<<(std::ostream &, const maze &);
+        std::string to_json_string();
     };
 
     /**
-     * A single wall in a maze.
+     * Used to construct a maze.
      */
-    struct maze::edge {
-        struct {
-            int x, y;
-        } src, dst;
-    };
-
-    /**
-     * Used to define a maze.
-     */
-    class maze::builder {
-    public:
-        struct cell;
-
-    private:
+    class maze_builder {
         int width, height;
-        std::vector<std::vector<cell> > cells;
+        cell *cells;
+        cell entry, exit;
 
     public:
-        builder(int width, int height, bool empty = true);
+        maze_builder(int width, int height);
+        ~maze_builder();
 
         std::shared_ptr<maze> to_maze();
 
-        cell &cell_at(int x, int y);
+        cell *cell_at(int x, int y);
 
-        void add_edge(int x1, int y1, int x2, int y2);
-    };
+        void add_link(cell* lhs, cell* rhs);
 
-    /**
-     * A single section of the maze, with possible adjoining cells.
-     */
-    struct maze::builder::cell {
-        int x, y;
-        bool north, south, east, west;
+        void add_exits();
 
-        cell(int x, int y, bool empty) : x(x), y(y), north(empty), south(empty), east(empty), west(empty) {
-
+        inline bool valid_cell(int x, int y) {
+            return ((x >= 0 && y >= 0) && (x < width && y < height));
         }
     };
 

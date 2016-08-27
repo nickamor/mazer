@@ -28,6 +28,10 @@ namespace mazer {
         file_task(const std::string &filename);
 
         ~file_task() = 0;
+
+        inline const std::string get_filename() {
+            return filename;
+        }
     };
 
     class input_task : public virtual task {

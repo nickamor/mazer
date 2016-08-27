@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <set>
 #include "reader.h"
 
 using namespace mazer;
@@ -26,7 +26,7 @@ std::shared_ptr<maze> reader::read() {
     filestream.read(reinterpret_cast<char *>(&height), sizeof height);
     filestream.read(reinterpret_cast<char *>(&num_edges), sizeof num_edges);
 
-    maze::builder builder(width, height);
+    std::set<edge> edges;
 
     for (int i = 0; i < num_edges; ++i) {
         int x1, y1, x2, y2;
@@ -36,34 +36,21 @@ std::shared_ptr<maze> reader::read() {
         filestream.read(reinterpret_cast<char *>(&x2), sizeof x2);
         filestream.read(reinterpret_cast<char *>(&y2), sizeof y2);
 
-        builder.add_edge(x1, y1, x2, y2);
+        edges.emplace(x1, y1, x2, y2);
     }
 
-    return builder.to_maze();
+    return std::make_shared<maze>(width, height, edges);
 }
 
 #ifdef __TEST__
 
-std::ostream &operator<<(std::ostream &output, const Maze &maze) {
-    output << "Maze" << std::endl;
-
-    output << "width: " << maze.width << std::endl;
-    output << "height: " << maze.height << std::endl;
-    output << "edges: " << maze.num_edges << std::endl;
-
-    for (auto& edge : maze.edges) {
-        output << "\t{";
-        output << edge.cellA.x << ", " << edge.cellA.y << ", ";
-        output << edge.cellB.x << ", " << edge.cellB.y;
-        output << "}" << std::endl;
-    }
-
-    return output;
-}
+#undef __TEST__
+#include "maze.cpp"
+#define __TEST__
 
 int main()
 {
-    FileReader reader("maze.bin");
+    reader reader("maze.bin");
     auto maze = reader.read();
 
     std::cout << maze << std::endl;

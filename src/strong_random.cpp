@@ -26,7 +26,7 @@ int strong_random::next(int floor, int ciel) {
 
 int main() {
     auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rand = Random(seed);
+    auto rand = strong_random(seed);
 
     std::cout << "Rand(0,1): \t"    << rand.next(0  , 1)    << std::endl;
     std::cout << "Rand(1,100): \t"  << rand.next(1  , 100)  << std::endl;
