@@ -5,6 +5,11 @@
 #include <iostream>
 #include "arguments_parser.h"
 
+#include "reader.h"
+#include "writer.h"
+#include "svg_writer.h"
+#include "generator.h"
+
 namespace po = boost::program_options;
 
 using namespace mazer;
@@ -12,39 +17,49 @@ using namespace mazer;
 class help_task : public task {
     po::options_description desc;
 public:
-    help_task(const po::options_description &desc);
+    help_task(const po::options_description &desc) : desc(desc) {}
 
-    void run();
+    void run() {
+        std::cout << desc << std::endl;
+    }
 };
 
 class read_file_task : public file_task, public input_task {
 public:
-    read_file_task(const std::string &filename);
+    read_file_task(const std::string &filename) : file_task(filename) {}
 
-    std::shared_ptr<maze> read();
+    std::shared_ptr<maze> read() {
+        // TODO: implement method
+        return nullptr;
+    }
 };
 
 class write_file_task : public file_task, public output_task {
 public:
-    write_file_task(const std::string &filename);
+    write_file_task(const std::string &filename) : file_task(filename) {}
 
-    void write(std::shared_ptr<maze> maze);
+    void write(std::shared_ptr<maze>) {}
 };
 
 class write_vector_task : public file_task, public output_task {
 public:
-    write_vector_task(const std::string &filename);
+    write_vector_task(const std::string &filename) : file_task(filename) {}
 
-    void write(std::shared_ptr<maze> maze);
+    void write(std::shared_ptr<maze>) {}
 };
 
 class generate_task : public input_task {
+    std::shared_ptr<generator> gen;
 public:
-    generate_task(int, int, int);
+    generate_task(int seed, int width, int height) {
+        gen = generator::factory(seed, width, height);
+    }
 
-    ~generate_task();
+    ~generate_task() {}
 
-    std::shared_ptr<maze> read();
+    std::shared_ptr<maze> read() {
+        return gen->generate();
+    }
 };
 
 task::~task() {
@@ -125,51 +140,12 @@ std::vector<std::shared_ptr<task> > arguments_parser::get_tasks() {
     return tasks;
 }
 
-help_task::help_task(const po::options_description &desc) : desc(desc) {
-
-}
-
-void help_task::run() {
-    std::cout << desc << std::endl;
-}
-
-read_file_task::read_file_task(const std::string &filename) : file_task(filename) {
-
-}
-
-std::shared_ptr<maze> read_file_task::read() {
-    return nullptr;
-}
-
-write_file_task::write_file_task(const std::string &filename) : file_task(filename) {
-
-}
-
-void write_file_task::write(std::shared_ptr<maze>) {
-
-}
-
-write_vector_task::write_vector_task(const std::string &filename) : file_task(filename) {
-
-}
-
-void write_vector_task::write(std::shared_ptr<maze>) {
-
-}
-
-generate_task::generate_task(int, int, int) {
-
-}
-
-generate_task::~generate_task() {
-
-}
-
-std::shared_ptr<maze> generate_task::read() {
-    return nullptr;
-}
-
 #ifdef __TEST__
+
+#undef __TEST__
+#include "generator.cpp"
+#include "maze.cpp"
+#define __TEST__
 
 int main(void) {
     int argc = 2;
