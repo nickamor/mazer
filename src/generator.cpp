@@ -37,14 +37,22 @@ std::shared_ptr<generator> aldous_broder_generator::create(int seed, int width, 
 }
 
 std::shared_ptr<maze> aldous_broder_generator::generate() {
-    // auto rand = strong_random(seed);
-    int unvisited = width * height;
+    auto rand = strong_random(seed);
+    int unvisited = (width * height) - 1;
     auto builder = maze_builder(width, height);
 
-    // auto cell = builder.cell_at(rand.next(0, width), rand.next(0, height));
+    auto cell = builder.cell_at(rand.next(0, width - 1), rand.next(0, height - 1));
 
     while (unvisited > 0) {
+		auto neighbours = cell->neighbours();
+		auto neighbour = neighbours[rand.next(0, neighbours.size() - 1)];
 
+		if (neighbour) {
+			builder.add_link(cell, neighbour);
+			unvisited -= 1;
+		}
+
+		cell = neighbour;
     }
 
     return builder.to_maze();
