@@ -19,7 +19,7 @@ TEST_TARGETS := $(patsubst $(SRCDIR)/%.cpp,$(TESTDIR)/%,$(SOURCES))
 
 .PHONY: all clean test
 
-all: $(BUILDDIR) $(TARGET)
+all: $(BUILDDIR) $(TARGET) test
 
 clean:
 	$(RM) -rf $(TARGET) $(BUILDDIR) $(TESTDIR)
