@@ -184,7 +184,7 @@ int main(void) {
 
     for (auto & task : tasks) {
         if (auto file = std::dynamic_pointer_cast<file_task>(task)) {
-            std::cout << "File task: " << file->get_filename(); << std::endl;
+            std::cout << "File task: " << file->get_filename() << std::endl;
         }
 
         if (auto input = std::dynamic_pointer_cast<input_task>(task)) {

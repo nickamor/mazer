@@ -16,9 +16,13 @@ namespace mazer {
      * A single wall in a maze.
      */
     struct edge {
-        struct {
+        struct point {
             int x, y;
+
+            point(int x = 0, int y = 0) : x(x), y(y) {}
         } src, dst;
+
+        edge(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0) : src(x1, y1), dst(x2, y2) {}
     };
 
     /**
@@ -59,10 +63,9 @@ namespace mazer {
             return edges;
         }
 
-        friend class maze_builder;
+        std::string to_json_string();
 
-        // Print maze information
-        friend std::ostream &operator<<(std::ostream &, const maze &);
+        friend class maze_builder;
     };
 
     /**
@@ -80,7 +83,6 @@ namespace mazer {
 
         cell *cell_at(int x, int y);
 
-        void add_edge(int x1, int y1, int x2, int y2);
         void add_link(int x1, int y1, int x2, int y2);
         void add_exits();
 

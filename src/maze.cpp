@@ -6,11 +6,42 @@
 #include "maze.h"
 #include <stdexcept>
 #include <iostream>
+#include <sstream>
 
 using namespace mazer;
 
 maze::maze(int width, int height, std::vector<edge> edges) : width(width), height(height), edges(edges) {
 
+}
+
+std::string maze::to_json_string() {
+    std::stringstream out;
+    out << "{" << std::endl;
+
+    out << "\t\"width\": " << width << "," << std::endl;
+    out << "\t\"height\": " << height << "," << std::endl;
+    out << "\t\"num_edges\": " << edges.size() << "," << std::endl;
+
+    out << "\t\"edges\": [" << std::endl;
+    for (int i = 0; i < get_num_edges(); ++i) {
+        auto edge = edges[i];
+        out << "\t\t{ ";
+
+        out << "\"x1\": " << edge.src.x << ", ";
+        out << "\"y1\": " << edge.src.y << ", ";
+        out << "\"x2\": " << edge.dst.x << ", ";
+        out << "\"y2\": " << edge.dst.y;
+
+        if (i < get_num_edges() - 1) {
+            out << " }," << std::endl;
+        } else {
+            out << " }" << std::endl;
+        }
+    }
+    out << "\t]" << std::endl;
+    out << "}" << std::endl;
+
+    return out.str();
 }
 
 maze_builder::maze_builder(int width, int height, bool no_links) : width(width), height(height) {
@@ -73,10 +104,6 @@ cell* maze_builder::cell_at(int x, int y) {
     return &cells[(y * width) + x];
 }
 
-void maze_builder::add_edge(int, int, int, int) {
-    // find and disconnect the cells bisected by this edge
-}
-
 void maze_builder::add_link(int x1, int y1, int x2, int y2) {
     cell_at(x1, y1)->links.push_back(cell_at(x2, y2));
     cell_at(x2, y2)->links.push_back(cell_at(x1, y1));
@@ -102,39 +129,33 @@ std::vector<cell *> cell::neighbours() {
 #include <iostream>
 
 void test_add_edges() {
-    auto builder = maze::builder(2, 2, true);
+    int width = 2;
+    int height = 2;
+    std::vector<edge> edges;
 
     /**
      *   |  |  |
      *   |_____|
      **/
 
-    // clockwise outer edges
-    // builder.add_edge(0, 0, 0, 1);
-    // builder.add_edge(0, 1, 1, 2);
+    edges.emplace_back(0, 2, 1, 2);
+    edges.emplace_back(1, 2, 2, 2);
 
-    builder.add_edge(0, 2, 1, 2);
-    builder.add_edge(1, 2, 2, 2);
+    edges.emplace_back(2, 0, 2, 1);
+    edges.emplace_back(2, 1, 2, 2);
 
-    builder.add_edge(2, 0, 2, 1);
-    builder.add_edge(2, 1, 2, 2);
+    edges.emplace_back(0, 0, 1, 0);
+    edges.emplace_back(1, 0, 1, 2);
 
-    builder.add_edge(0, 0, 1, 0);
-    builder.add_edge(1, 0, 1, 2);
+    edges.emplace_back(0, 1, 1, 1);
 
-    // clockwise inner edges
-    builder.add_edge(0, 1, 1, 1);
-    // builder.add_edge(1, 1, 1, 2);
-    // builder.add_edge(1, 1, 2, 1);
-    // builder.add_edge(1, 1, 1, 0);
+    maze maze(width, height, edges);
 
-    auto maze = builder.to_maze();
-
-    std::cout << maze << std::endl;
+    std::cout << maze.to_json_string() << std::endl;
 }
 
 void test_add_links() {
-    maze::builder builder(2, 2);
+    maze_builder builder(2, 2);
 
     builder.add_link(0, 0, 0, 1);
     builder.add_link(0, 1, 1, 1);
@@ -144,7 +165,7 @@ void test_add_links() {
 
     auto maze = builder.to_maze();
 
-    std::cout << maze << std::endl;
+    std::cout << maze->to_json_string() << std::endl;
 }
 
 int main() {
