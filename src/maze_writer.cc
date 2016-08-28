@@ -3,28 +3,25 @@
 //
 
 #include <fstream>
-#include "writer.h"
+#include "maze_writer.h"
 
 using namespace mazer;
 
-writer::writer(const std::string &filename) : filename(filename) {
+MazeWriter::MazeWriter(const std::string &filename) : filename(filename) {
 
 }
 
-/**
- * Write the given Maze to file.
- * @param maze
- */
-void writer::write(std::shared_ptr<maze> maze) {
+void MazeWriter::Write(std::shared_ptr<Maze> maze) {
     std::ofstream stream(filename, std::ios::binary);
 
-    int width = maze->get_width(), height = maze->get_height(), num_edges = maze->get_num_edges();
+    auto &&edges = maze->GetEdges();
+    int width = maze->GetWidth(), height = maze->GetHeight(), num_edges = edges.size();
 
     stream.write(reinterpret_cast<char *>(&width), sizeof width);
     stream.write(reinterpret_cast<char *>(&height), sizeof height);
     stream.write(reinterpret_cast<char *>(&num_edges), sizeof num_edges);
 
-    for (auto &edge : maze->get_edges()) {
+    for (auto &edge : edges) {
         stream.write(reinterpret_cast<const char *>(&edge.src.x), sizeof edge.src.x);
         stream.write(reinterpret_cast<const char *>(&edge.src.y), sizeof edge.src.y);
         stream.write(reinterpret_cast<const char *>(&edge.dst.x), sizeof edge.dst.x);
@@ -34,12 +31,19 @@ void writer::write(std::shared_ptr<maze> maze) {
 
 #ifdef __TEST__
 
+#include <set>
+
+#undef __TEST__
+#include "maze.cc"
+#define __TEST__
+
 int main(void) {
-    // auto maze = std::make_shared<Maze>();
+    std::set<Edge> edges;
+    auto maze = std::make_shared<Maze>(2, 2, edges);
 
-    // auto writer = writer("maze2.bin");
+    auto writer = MazeWriter("maze2.bin");
 
-    // writer.write(maze);
+    writer.Write(maze);
 }
 
 #endif //__TEST__

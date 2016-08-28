@@ -5,15 +5,15 @@
 #include <iostream>
 #include <fstream>
 #include <set>
-#include "reader.h"
+#include "maze_reader.h"
 
 using namespace mazer;
 
-reader::reader(const std::string &filename) : filename(filename) {
+MazeReader::MazeReader(const std::string &filename) : filename(filename) {
 
 }
 
-std::shared_ptr<maze> reader::read() {
+std::shared_ptr<Maze> MazeReader::Read() {
     int width, height, num_edges;
 
     std::ifstream filestream(filename, std::ios::binary);
@@ -26,7 +26,7 @@ std::shared_ptr<maze> reader::read() {
     filestream.read(reinterpret_cast<char *>(&height), sizeof height);
     filestream.read(reinterpret_cast<char *>(&num_edges), sizeof num_edges);
 
-    std::set<edge> edges;
+    std::set<Edge> edges;
 
     for (int i = 0; i < num_edges; ++i) {
         int x1, y1, x2, y2;
@@ -39,19 +39,19 @@ std::shared_ptr<maze> reader::read() {
         edges.emplace(x1, y1, x2, y2);
     }
 
-    return std::make_shared<maze>(width, height, edges);
+    return std::make_shared<Maze>(width, height, edges);
 }
 
 #ifdef __TEST__
 
 #undef __TEST__
-#include "maze.cpp"
+#include "maze.cc"
 #define __TEST__
 
 int main()
 {
-    reader reader("maze.bin");
-    auto maze = reader.read();
+    MazeReader reader("maze.bin");
+    auto maze = reader.Read();
 
     std::cout << maze << std::endl;
 

@@ -1,4 +1,4 @@
-## mazer - C++ maze generator
+## mazer - C++ Maze generator
 ## Nick Amor 2016
 
 # Compiler options
@@ -13,16 +13,16 @@ TESTDIR := tests
 
 # Output files
 TARGET := mazer
-SOURCES := $(wildcard $(SRCDIR)/*.cpp)
-OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
-TEST_TARGETS := $(patsubst $(SRCDIR)/%.cpp,$(TESTDIR)/%,$(SOURCES))
+SOURCES := $(wildcard $(SRCDIR)/*.cc)
+OBJECTS := $(patsubst $(SRCDIR)/%.cc,$(BUILDDIR)/%.o,$(SOURCES))
+TEST_TARGETS := $(patsubst $(SRCDIR)/%.cc,$(TESTDIR)/%,$(SOURCES))
 
 .PHONY: all clean test
 
 all: $(BUILDDIR) $(TARGET) test
 
 clean:
-	$(RM) -rf $(TARGET) $(BUILDDIR) $(TESTDIR)
+	$(RM) -r $(TARGET) $(BUILDDIR) $(TESTDIR)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) $(LDFLAGS) -o $@ $^
@@ -30,12 +30,12 @@ $(TARGET): $(OBJECTS)
 $(BUILDDIR) $(TESTDIR):
 	mkdir $@
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cc
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 # test : build and run all tests
 # tests/% : build and run specific test
 test: $(TESTDIR) $(TEST_TARGETS)
 
-tests/%: $(SRCDIR)/%.cpp
+tests/%: $(SRCDIR)/%.cc
 	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $<

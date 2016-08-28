@@ -12,15 +12,16 @@
 
 namespace mazer {
 
-    class reader {
+    /**
+     * Deserialises a maze from disk.
+     */
+    class MazeReader {
     private:
         std::string filename;
     public:
-        reader(const std::string &filename);
+        MazeReader(const std::string &filename);
 
-        std::shared_ptr<maze> read();
-
-        friend std::ostream &operator<<(std::ostream &, const reader &);
+        std::shared_ptr<Maze> Read();
     };
 
 }

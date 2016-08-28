@@ -14,47 +14,53 @@ namespace po = boost::program_options;
 
 namespace mazer {
 
-    class task {
+    /**
+     * A task to perform.
+     */
+    class Task {
     public:
-        virtual ~task() = 0;
+        virtual ~Task() = 0;
 
-        virtual void run();
+        virtual void Run();
     };
 
-    class file_task : public virtual task {
+    class FileTask : public virtual Task {
     protected:
         std::string filename;
     public:
-        file_task(const std::string &filename);
+        FileTask(const std::string &filename);
 
-        ~file_task() = 0;
+        ~FileTask() = 0;
 
-        inline const std::string get_filename() {
+        inline const std::string GetFilename() {
             return filename;
         }
     };
 
-    class input_task : public virtual task {
+    class InputTask : public virtual Task {
     public:
-        ~input_task() = 0;
+        ~InputTask() = 0;
 
-        virtual std::shared_ptr<maze> read() = 0;
+        virtual std::shared_ptr<Maze> Read() = 0;
     };
 
-    class output_task : public virtual task {
+    class OutputTask : public virtual Task {
     public:
-        ~output_task() = 0;
+        ~OutputTask() = 0;
 
-        virtual void write(std::shared_ptr<maze>) = 0;
+        virtual void Write(std::shared_ptr<Maze>) = 0;
     };
 
-    class arguments_parser {
-        po::options_description desc;
-        po::variables_map map;
+    /**
+     * Parses program arguments into a set of actions to perform.
+     */
+    class ArgumentsParser {
+        int argc;
+        const char **argv;
     public:
-        arguments_parser(int argc, char const *argv[]);
+        ArgumentsParser(int argc, char const *argv[]);
 
-        std::vector<std::shared_ptr<task> > get_tasks();
+        std::vector<std::shared_ptr<Task> > GetTasks();
     };
 
 }

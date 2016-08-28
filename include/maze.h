@@ -16,116 +16,71 @@ namespace mazer {
     /**
      * A single wall in a maze.
      */
-    struct edge {
-        struct point {
+    struct Edge {
+        struct Point {
             int x, y;
 
-            point(int x = 0, int y = 0);
+            Point(int x = 0, int y = 0);
 
-            friend inline bool operator==(const point& lhs, const point& rhs) {
+            friend inline bool operator==(const Point &lhs, const Point &rhs) {
                 return (lhs.x == rhs.x && lhs.y == rhs.y);
             };
 
-            friend inline bool operator!=(const point& lhs, const point& rhs) {
+            friend inline bool operator!=(const Point &lhs, const Point &rhs) {
                 return !(lhs == rhs);
             };
 
-            friend inline bool operator<(const point& lhs, const point& rhs) {
+            friend inline bool operator<(const Point &lhs, const Point &rhs) {
                 return (lhs.x != rhs.x ? lhs.x < rhs.x : lhs.y < rhs.y);
             };
 
-            friend inline bool operator>(const point& lhs, const point& rhs) {
+            friend inline bool operator>(const Point &lhs, const Point &rhs) {
                 return rhs < lhs;
             };
         } src, dst;
 
-        edge(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0);
+        Edge(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0);
 
-        friend inline bool operator==(const edge& lhs, const edge& rhs) {
+        friend inline bool operator==(const Edge &lhs, const Edge &rhs) {
             return (lhs.src == rhs.src && lhs.dst == rhs.dst);
         };
 
-        friend inline bool operator!=(const edge& lhs, const edge& rhs) {
+        friend inline bool operator!=(const Edge &lhs, const Edge &rhs) {
             return !(lhs == rhs);
         };
 
-        friend inline bool operator<(const edge& lhs, const edge& rhs) {
+        friend inline bool operator<(const Edge &lhs, const Edge &rhs) {
             return (lhs.src != rhs.src ? lhs.src < rhs.src : lhs.dst < rhs.dst);
         };
 
-        friend inline bool operator>(const edge& lhs, const edge& rhs) {
+        friend inline bool operator>(const Edge &lhs, const Edge &rhs) {
             return rhs < lhs;
-        };
-    };
-
-    /**
-     * A single section of the maze, with possible adjoining cells.
-     */
-    struct cell {
-        cell *north, *east, *south, *west;
-        std::vector<cell *> links;
-
-        cell();
-
-        std::vector<cell *> neighbours();
-
-        inline void add_link(cell* c) {
-            links.push_back(c);
         };
     };
 
     /**
      * An immutable set of edges that define the pathways of a maze of defined width and height.
      */
-    class maze {
+    class Maze {
         int width, height;
-        std::set<edge> edges;
+        std::set<Edge> edges;
 
     public:
-        maze(int width, int height, std::set<edge> edges);
+        Maze(int width, int height, std::set<Edge> edges);
 
-        inline int get_width() {
+        inline int GetWidth() {
             return width;
         }
 
-        inline int get_height() {
+        inline int GetHeight() {
             return height;
-        } 
-
-        inline int get_num_edges() {
-            return edges.size();
         }
 
-        inline std::set<edge> get_edges() {
+        inline std::set<Edge> GetEdges() {
             return edges;
         }
 
-        std::string to_json_string();
-    };
-
-    /**
-     * Used to construct a maze.
-     */
-    class maze_builder {
-        int width, height;
-        cell *cells;
-        cell entry, exit;
-
-    public:
-        maze_builder(int width, int height);
-        ~maze_builder();
-
-        std::shared_ptr<maze> to_maze();
-
-        cell *cell_at(int x, int y);
-
-        void add_link(cell* lhs, cell* rhs);
-
-        void add_exits();
-
-        inline bool valid_cell(int x, int y) {
-            return ((x >= 0 && y >= 0) && (x < width && y < height));
-        }
+        std::string ToJsonString();
     };
 
 }
