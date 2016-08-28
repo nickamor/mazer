@@ -3,11 +3,11 @@
 //
 
 #include <fstream>
-#include "writer.h"
+#include "maze_writer.h"
 
 using namespace mazer;
 
-writer::writer(const std::string &filename) : filename(filename) {
+MazeWriter::MazeWriter(const std::string &filename) : filename(filename) {
 
 }
 
@@ -15,7 +15,7 @@ writer::writer(const std::string &filename) : filename(filename) {
  * Write the given Maze to file.
  * @param maze
  */
-void writer::write(std::shared_ptr<maze> maze) {
+void MazeWriter::write(std::shared_ptr<Maze> maze) {
     std::ofstream stream(filename, std::ios::binary);
 
     int width = maze->get_width(), height = maze->get_height(), num_edges = maze->get_num_edges();
@@ -34,12 +34,19 @@ void writer::write(std::shared_ptr<maze> maze) {
 
 #ifdef __TEST__
 
+#include <set>
+
+#undef __TEST__
+#include "maze.cc"
+#define __TEST__
+
 int main(void) {
-    // auto maze = std::make_shared<Maze>();
+    std::set<Edge> edges;
+    auto maze = std::make_shared<Maze>(2, 2, edges);
 
-    // auto writer = writer("maze2.bin");
+    auto writer = MazeWriter("maze2.bin");
 
-    // writer.write(maze);
+    writer.write(maze);
 }
 
 #endif //__TEST__

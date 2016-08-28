@@ -9,10 +9,13 @@
 
 namespace mazer {
 
-    class strong_random {
+    /**
+     * Facade to random number engine.
+     */
+    class StrongRandom {
         std::mt19937 engine;
     public:
-        strong_random(int seed);
+        StrongRandom(int seed);
 
         int next(int floor, int ciel);
     };

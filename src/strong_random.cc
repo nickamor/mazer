@@ -6,14 +6,14 @@
 
 using namespace mazer;
 
-strong_random::strong_random(int seed) {
+StrongRandom::StrongRandom(int seed) {
     engine = std::mt19937(seed);
 }
 
 /**
  * @returns int n, where n >= floor and n <= ciel.
  **/
-int strong_random::next(int floor, int ciel) {
+int StrongRandom::next(int floor, int ciel) {
     auto dist = std::uniform_int_distribution<>(floor, ciel);
 
     return dist(engine);
@@ -26,7 +26,7 @@ int strong_random::next(int floor, int ciel) {
 
 int main() {
     auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rand = strong_random(seed);
+    auto rand = StrongRandom(seed);
 
     std::cout << "Rand(0,1): \t"    << rand.next(0  , 1)    << std::endl;
     std::cout << "Rand(1,100): \t"  << rand.next(1  , 100)  << std::endl;

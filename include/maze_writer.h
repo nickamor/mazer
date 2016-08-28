@@ -9,12 +9,15 @@
 
 namespace mazer {
 
-    class writer {
+    /**
+     * Serialises a maze to disk.
+     */
+    class MazeWriter {
         std::string filename;
     public:
-        writer(const std::string &filename);
+        MazeWriter(const std::string &filename);
 
-        void write(std::shared_ptr<maze> maze);
+        void write(std::shared_ptr<Maze> maze);
     };
 
 }
