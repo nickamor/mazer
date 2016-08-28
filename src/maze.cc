@@ -13,7 +13,7 @@ Edge::Edge(int x1, int y1, int x2, int y2) : src(x1, y1), dst(x2, y2) {}
 
 Maze::Maze(int width, int height, std::set<Edge> edges) : width(width), height(height), edges(edges) {}
 
-std::string Maze::to_json_string() {
+std::string Maze::ToJsonString() {
     std::stringstream out;
     out << "{" << std::endl;
 
@@ -70,7 +70,7 @@ void test_add_edges() {
 
     Maze maze(width, height, edges);
 
-    std::cout << maze.to_json_string() << std::endl;
+    std::cout << maze.ToJsonString() << std::endl;
 }
 
 int main() {

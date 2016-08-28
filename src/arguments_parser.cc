@@ -19,7 +19,7 @@ class HelpTask : public Task {
 public:
     HelpTask(const po::options_description &desc) : desc(desc) {}
 
-    void run() {
+    void Run() override {
         std::cout << desc << std::endl;
     }
 };
@@ -28,9 +28,9 @@ class ReadFileTask : public FileTask, public InputTask {
 public:
     ReadFileTask(const std::string &filename) : FileTask(filename) {}
 
-    std::shared_ptr<Maze> read() {
+    std::shared_ptr<Maze> Read() override {
         MazeReader reader(filename);
-        return reader.read();
+        return reader.Read();
     }
 };
 
@@ -38,9 +38,9 @@ class WriteFileTask : public FileTask, public OutputTask {
 public:
     WriteFileTask(const std::string &filename) : FileTask(filename) {}
 
-    void write(std::shared_ptr<Maze> maze) {
+    void Write(std::shared_ptr<Maze> maze) override {
         MazeWriter writer(filename);
-        writer.write(maze);
+        writer.Write(maze);
     }
 };
 
@@ -48,9 +48,9 @@ class WriteSvgTask : public FileTask, public OutputTask {
 public:
     WriteSvgTask(const std::string &filename) : FileTask(filename) {}
 
-    void write(std::shared_ptr<Maze> maze) {
+    void Write(std::shared_ptr<Maze> maze) override {
         MazeSvgWriter writer(filename);
-        writer.write(maze);
+        writer.Write(maze);
     }
 };
 
@@ -59,20 +59,20 @@ class GenerateTask : public InputTask {
 public:
     GenerateTask(int seed, int width, int height) : seed(seed), width(width), height(height) {}
 
-    std::shared_ptr<Maze> read() {
-        auto gen = MazeGenerator::factory(seed, width, height);
-        return gen->generate();
+    std::shared_ptr<Maze> Read() override {
+        auto gen = MazeGenerator::Factory(seed, width, height);
+        return gen->Generate();
     }
 
-    inline int get_seed() {
+    inline int GetSeed() {
         return seed;
     }
 
-    inline int get_width() {
+    inline int GetWidth() {
         return width;
     }
 
-    inline int get_height() {
+    inline int GetHeight() {
         return height;
     }
 };
@@ -81,7 +81,7 @@ Task::~Task() {
 
 }
 
-void Task::run() {
+void Task::Run() {
 
 }
 
@@ -102,7 +102,7 @@ OutputTask::~OutputTask() {
 }
 
 ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : argc(argc), argv(argv) {
-    #ifdef __TEST__
+#ifdef __TEST__
 
     std::cout << argc << " arguments:" << std::endl;
 
@@ -111,10 +111,10 @@ ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : argc(argc), arg
         std::cout << argv[i] << std::endl;
     }
 
-    #endif
+#endif
 }
 
-std::vector<std::shared_ptr<Task> > ArgumentsParser::get_tasks() {
+std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
     po::options_description desc("Allowed options");
     po::variables_map map;
 
@@ -130,11 +130,11 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::get_tasks() {
         po::store(po::parse_command_line(argc, argv, desc), map);
         po::notify(map);
 
-        #ifdef __TEST__
+#ifdef __TEST__
 
         std::cout << map.size() << " arguments parsed" << std::endl;
 
-        #endif
+#endif
 
         if (map.size() == 0 || map.count("help")) {
             std::shared_ptr<Task> task = std::make_shared<HelpTask>(desc);
@@ -171,7 +171,7 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::get_tasks() {
             std::shared_ptr<Task> task = std::make_shared<WriteSvgTask>(filename);
             tasks.push_back(task);
         }
-    } catch (po::unknown_option& e) {
+    } catch (po::unknown_option &e) {
         std::cout << "WARNING: encountered unknown option " << e.get_option_name() << std::endl;
     }
 
@@ -195,25 +195,25 @@ using namespace std;
 int main(int argc, const char *argv[]) {
     auto args = ArgumentsParser(argc, argv);
 
-    auto tasks = args.get_tasks();
+    auto tasks = args.GetTasks();
 
     cout << tasks.size() << " tasks:" << endl;
 
     for (auto & task : tasks) {
         if (auto read = dynamic_pointer_cast<ReadFileTask>(task)) {
-            cout << "ReadFileTask: " << read->get_filename() << endl;
+            cout << "ReadFileTask: " << read->GetFilename() << endl;
         }
 
         if (auto write = dynamic_pointer_cast<WriteFileTask>(task)) {
-            cout << "WriteFileTask: " << write->get_filename() << endl;
+            cout << "WriteFileTask: " << write->GetFilename() << endl;
         }
 
         if (auto svg = dynamic_pointer_cast<WriteSvgTask>(task)) {
-            cout << "WriteSvgTask: " << svg->get_filename() << endl;
+            cout << "WriteSvgTask: " << svg->GetFilename() << endl;
         }
 
         if (auto generate = dynamic_pointer_cast<GenerateTask>(task)) {
-            cout << "GenerateTask: " << generate->get_seed() << " " << generate->get_width() << " " << generate->get_height() << endl; 
+            cout << "GenerateTask: " << generate->GetSeed() << " " << generate->GetWidth() << " " << generate->GetHeight() << endl; 
         }
 
         if (auto help = dynamic_pointer_cast<HelpTask>(task)) {

@@ -10,7 +10,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     include_directories(include)
 
-    set(SOURCE_FILES src/main.cc src/maze.cc src/arguments_parser.cc src/maze_reader.cc src/maze_writer.cc src/maze_svg_writer.cc src/maze_generator.cc src/strong_random.cc include/strong_random.h src/maze_builder.cc include/maze_builder.h)
+    set(SOURCE_FILES src/arguments_parser.cc src/main.cc src/maze.cc src/maze_builder.cc src/maze_generator.cc src/maze_reader.cc src/maze_svg_writer.cc src/maze_writer.cc src/strong_random.cc)
     add_executable(mazer ${SOURCE_FILES})
 
     target_link_libraries(mazer ${Boost_LIBRARIES})

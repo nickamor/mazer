@@ -20,9 +20,16 @@ namespace mazer {
         MazeGenerator(int seed, int width, int height);
 
     public:
-        virtual std::shared_ptr<Maze> generate() = 0;
+        virtual std::shared_ptr<Maze> Generate() = 0;
 
-        static std::shared_ptr<MazeGenerator> factory(int seed, int width, int height);
+        /**
+         * Create a MazeGenerator with the given parameters.
+         * @param seed
+         * @param width
+         * @param height
+         * @return
+         */
+        static std::shared_ptr<MazeGenerator> Factory(int seed, int width, int height);
     };
 
 }

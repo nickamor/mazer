@@ -13,54 +13,49 @@ using namespace mazer;
  */
 class AldousBroderGenerator : public MazeGenerator {
 public:
-    AldousBroderGenerator(int, int, int);
+    AldousBroderGenerator(int seed, int width, int height) : MazeGenerator(seed, width, height) {
 
+    }
 
     /**
      * Generate the maze using Aldous-Broder
      * @return
      */
-    std::shared_ptr<Maze> generate();
+    std::shared_ptr<Maze> Generate() override {
+        auto rand = StrongRandom(seed);
+        int unvisited = (width * height) - 1;
+        auto builder = MazeBuilder(width, height);
+
+        auto cell = builder.CellAt(rand.Next(0, width - 1), rand.Next(0, height - 1));
+
+        while (unvisited > 0) {
+            auto &&n = cell->Neighbours();
+            auto random_n = n[rand.Next<int>(0, n.size() - 1)];
+
+            if (random_n) {
+                builder.AddLink(cell, random_n);
+                unvisited -= 1;
+            }
+
+            cell = random_n;
+        }
+
+        builder.AddExits();
+
+        return builder.ToMaze();
+    }
 };
 
 MazeGenerator::MazeGenerator(int seed, int width, int height) : seed(seed), width(width), height(height) {
 
 }
 
-std::shared_ptr<Maze> MazeGenerator::generate() {
+std::shared_ptr<Maze> MazeGenerator::Generate() {
     return nullptr;
 }
 
-std::shared_ptr<MazeGenerator> MazeGenerator::factory(int seed, int width, int height) {
+std::shared_ptr<MazeGenerator> MazeGenerator::Factory(int seed, int width, int height) {
     return std::make_shared<AldousBroderGenerator>(seed, width, height);
-}
-
-AldousBroderGenerator::AldousBroderGenerator(int seed, int width, int height) : MazeGenerator(seed, width, height) {
-
-}
-
-std::shared_ptr<Maze> AldousBroderGenerator::generate() {
-    auto rand = StrongRandom(seed);
-    int unvisited = (width * height) - 1;
-    auto builder = MazeBuilder(width, height);
-
-    auto cell = builder.cell_at(rand.next(0, width - 1), rand.next(0, height - 1));
-
-    while (unvisited > 0) {
-        auto neighbours = cell->neighbours();
-        auto neighbour = neighbours[rand.next(0, neighbours.size() - 1)];
-
-        if (neighbour) {
-            builder.add_link(cell, neighbour);
-            unvisited -= 1;
-        }
-
-        cell = neighbour;
-    }
-
-    builder.add_exits();
-
-    return builder.to_maze();
 }
 
 #ifdef __TEST__
@@ -72,8 +67,8 @@ std::shared_ptr<Maze> AldousBroderGenerator::generate() {
 #define __TEST__
 
 int main() {
-    auto gen = MazeGenerator::factory(1, 50, 50);
-    auto m = gen->generate();
+    auto gen = MazeGenerator::Factory(1, 50, 50);
+    auto m = gen->Generate();
 
     std::cout << m << std::endl;
 }

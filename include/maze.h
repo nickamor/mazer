@@ -68,23 +68,19 @@ namespace mazer {
     public:
         Maze(int width, int height, std::set<Edge> edges);
 
-        inline int get_width() {
+        inline int GetWidth() {
             return width;
         }
 
-        inline int get_height() {
+        inline int GetHeight() {
             return height;
         }
 
-        inline int get_num_edges() {
-            return edges.size();
-        }
-
-        inline std::set<Edge> get_edges() {
+        inline std::set<Edge> GetEdges() {
             return edges;
         }
 
-        std::string to_json_string();
+        std::string ToJsonString();
     };
 
 }

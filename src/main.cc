@@ -14,20 +14,20 @@ using namespace std;
 int main(int argc, char const *argv[]) {
     auto handler = ArgumentsParser(argc, argv);
 
-    auto tasks = handler.get_tasks();
+    auto tasks = handler.GetTasks();
 
     shared_ptr<Maze> maze = nullptr;
 
     for (auto &task : tasks) {
         if (auto input = dynamic_pointer_cast<InputTask>(task)) {
-            maze = input->read();
+            maze = input->Read();
         }
 
         if (auto output = dynamic_pointer_cast<OutputTask>(task)) {
-            output->write(maze);
+            output->Write(maze);
         }
 
-        task->run();
+        task->Run();
     }
 
     return 0;
@@ -47,13 +47,13 @@ int main(int argc, char const *argv[]) {
 #define __TEST__
 
 int main(void) {
-    auto gen = MazeGenerator::factory(1, 64, 48);
+    auto gen = MazeGenerator::Factory(1, 64, 48);
 
-    auto maze = gen->generate();
+    auto maze = gen->Generate();
 
     auto writer = MazeSvgWriter("test.svg");
 
-    writer.write(maze);
+    writer.Write(maze);
 }
 
 #endif

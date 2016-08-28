@@ -9,7 +9,7 @@ using namespace mazer;
 
 Cell::Cell() : north(nullptr), east(nullptr), south(nullptr), west(nullptr) {}
 
-std::vector<Cell *> Cell::neighbours() {
+std::vector<Cell *> Cell::Neighbours() {
     std::vector<Cell *> vec;
 
     if (this->north != nullptr) {
@@ -31,7 +31,7 @@ std::vector<Cell *> Cell::neighbours() {
     return vec;
 }
 
-bool Cell::is_linked_to(Cell *cell) {
+bool Cell::IsLinkedTo(Cell *cell) {
     return std::find(links.begin(), links.end(), cell) != std::end(links);
 }
 
@@ -41,26 +41,26 @@ MazeBuilder::MazeBuilder(int width, int height) : width(width), height(height) {
     // initialise grid cell links
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
-            auto cell = cell_at(i, j);
+            auto cell = CellAt(i, j);
 
             // north
             if (j > 0) {
-                cell->north = cell_at(i, j - 1);
+                cell->north = CellAt(i, j - 1);
             }
 
             // east
             if (i < width - 1) {
-                cell->east = cell_at(i + 1, j);
+                cell->east = CellAt(i + 1, j);
             }
 
             // south
             if (j < height - 1) {
-                cell->south = cell_at(i, j + 1);
+                cell->south = CellAt(i, j + 1);
             }
 
             // west
             if (i > 0) {
-                cell->west = cell_at(i - 1, j);
+                cell->west = CellAt(i - 1, j);
             }
         }
     }
@@ -71,27 +71,26 @@ MazeBuilder::~MazeBuilder() {
     cells = nullptr;
 }
 
-std::shared_ptr <Maze> MazeBuilder::to_maze() {
-    std::set <Edge> edges;
+std::shared_ptr<Maze> MazeBuilder::ToMaze() {
+    std::set<Edge> edges;
 
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
-            auto cell = cell_at(i, j);
-            auto &links = cell->links;
+            auto cell = CellAt(i, j);
 
-            if (!cell->is_linked_to(cell->north)) {
+            if (!cell->IsLinkedTo(cell->north)) {
                 edges.emplace(i, j, i + 1, j);
             }
 
-            if (!cell->is_linked_to(cell->east)) {
+            if (!cell->IsLinkedTo(cell->east)) {
                 edges.emplace(i + 1, j, i + 1, j + 1);
             }
 
-            if (!cell->is_linked_to(cell->south)) {
+            if (!cell->IsLinkedTo(cell->south)) {
                 edges.emplace(i, j + 1, i + 1, j + 1);
             }
 
-            if (!cell->is_linked_to(cell->west)) {
+            if (!cell->IsLinkedTo(cell->west)) {
                 edges.emplace(i, j, i, j + 1);
             }
         }
@@ -100,20 +99,20 @@ std::shared_ptr <Maze> MazeBuilder::to_maze() {
     return std::make_shared<Maze>(width, height, edges);
 }
 
-Cell *MazeBuilder::cell_at(int x, int y) {
-    if (!valid_cell(x, y)) {
+Cell *MazeBuilder::CellAt(int x, int y) {
+    if (!ValidCell(x, y)) {
         throw std::runtime_error("Cell index out of bounds.");
     }
 
     return &cells[(y * width) + x];
 }
 
-void MazeBuilder::add_link(Cell *lhs, Cell *rhs) {
+void MazeBuilder::AddLink(Cell *lhs, Cell *rhs) {
     lhs->links.push_back(rhs);
     rhs->links.push_back(lhs);
 }
 
-void MazeBuilder::add_exits() {
+void MazeBuilder::AddExits() {
     cells[0].links.push_back(&entry);
     cells[0].west = &entry;
 
@@ -130,21 +129,21 @@ void MazeBuilder::add_exits() {
 void test_add_links() {
     MazeBuilder builder(2, 2);
 
-    auto cell = builder.cell_at(0, 0);
+    auto cell = builder.CellAt(0, 0);
 
-    builder.add_link(cell, cell->south);
+    builder.AddLink(cell, cell->south);
     cell = cell->south;
 
-    builder.add_link(cell, cell->east);
+    builder.AddLink(cell, cell->east);
     cell = cell->east;
 
-    builder.add_link(cell, cell->north);
+    builder.AddLink(cell, cell->north);
 
-    builder.add_exits();
+    builder.AddExits();
 
-    auto maze = builder.to_maze();
+    auto maze = builder.ToMaze();
 
-    std::cout << maze->to_json_string() << std::endl;
+    std::cout << maze->ToJsonString() << std::endl;
 }
 
 int main() {

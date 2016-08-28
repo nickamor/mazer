@@ -21,7 +21,7 @@ namespace mazer {
     public:
         MazeReader(const std::string &filename);
 
-        std::shared_ptr<Maze> read();
+        std::shared_ptr<Maze> Read();
     };
 
 }

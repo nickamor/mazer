@@ -17,7 +17,16 @@ namespace mazer {
     public:
         StrongRandom(int seed);
 
-        int next(int floor, int ciel);
+        /**
+         * Return the next value from the random number generator.
+         * @param floor range minimum, inclusive
+         * @param ciel range maximum, inclusive
+         * @return T n, where n >= floor and n <= ciel.
+         */
+        template<class IntType = int>
+        inline IntType Next(IntType floor, IntType ciel) {
+            return std::uniform_int_distribution<IntType>(floor, ciel)(engine);
+        }
     };
 
 }

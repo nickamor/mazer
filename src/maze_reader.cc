@@ -13,7 +13,7 @@ MazeReader::MazeReader(const std::string &filename) : filename(filename) {
 
 }
 
-std::shared_ptr<Maze> MazeReader::read() {
+std::shared_ptr<Maze> MazeReader::Read() {
     int width, height, num_edges;
 
     std::ifstream filestream(filename, std::ios::binary);
@@ -51,7 +51,7 @@ std::shared_ptr<Maze> MazeReader::read() {
 int main()
 {
     MazeReader reader("maze.bin");
-    auto maze = reader.read();
+    auto maze = reader.Read();
 
     std::cout << maze << std::endl;
 

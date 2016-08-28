@@ -21,7 +21,7 @@ namespace mazer {
     public:
         virtual ~Task() = 0;
 
-        virtual void run();
+        virtual void Run();
     };
 
     class FileTask : public virtual Task {
@@ -32,7 +32,7 @@ namespace mazer {
 
         ~FileTask() = 0;
 
-        inline const std::string get_filename() {
+        inline const std::string GetFilename() {
             return filename;
         }
     };
@@ -41,14 +41,14 @@ namespace mazer {
     public:
         ~InputTask() = 0;
 
-        virtual std::shared_ptr<Maze> read() = 0;
+        virtual std::shared_ptr<Maze> Read() = 0;
     };
 
     class OutputTask : public virtual Task {
     public:
         ~OutputTask() = 0;
 
-        virtual void write(std::shared_ptr<Maze>) = 0;
+        virtual void Write(std::shared_ptr<Maze>) = 0;
     };
 
     /**
@@ -60,7 +60,7 @@ namespace mazer {
     public:
         ArgumentsParser(int argc, char const *argv[]);
 
-        std::vector<std::shared_ptr<Task> > get_tasks();
+        std::vector<std::shared_ptr<Task> > GetTasks();
     };
 
 }

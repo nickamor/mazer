@@ -17,7 +17,11 @@ namespace mazer {
     public:
         MazeWriter(const std::string &filename);
 
-        void write(std::shared_ptr<Maze> maze);
+        /**
+         * Write the given Maze to file.
+         * @param maze
+         */
+        void Write(std::shared_ptr<Maze> maze);
     };
 
 }

@@ -19,9 +19,9 @@ namespace mazer {
 
         Cell();
 
-        std::vector<Cell *> neighbours();
+        std::vector<Cell *> Neighbours();
 
-        bool is_linked_to(Cell *cell);
+        bool IsLinkedTo(Cell *cell);
     };
 
     /**
@@ -37,15 +37,15 @@ namespace mazer {
 
         ~MazeBuilder();
 
-        std::shared_ptr <Maze> to_maze();
+        std::shared_ptr<Maze> ToMaze();
 
-        Cell *cell_at(int x, int y);
+        Cell *CellAt(int x, int y);
 
-        void add_link(Cell *lhs, Cell *rhs);
+        void AddLink(Cell *lhs, Cell *rhs);
 
-        void add_exits();
+        void AddExits();
 
-        inline bool valid_cell(int x, int y) {
+        inline bool ValidCell(int x, int y) {
             return ((x >= 0 && y >= 0) && (x < width && y < height));
         }
     };

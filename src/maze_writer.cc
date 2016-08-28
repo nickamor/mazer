@@ -11,20 +11,17 @@ MazeWriter::MazeWriter(const std::string &filename) : filename(filename) {
 
 }
 
-/**
- * Write the given Maze to file.
- * @param maze
- */
-void MazeWriter::write(std::shared_ptr<Maze> maze) {
+void MazeWriter::Write(std::shared_ptr<Maze> maze) {
     std::ofstream stream(filename, std::ios::binary);
 
-    int width = maze->get_width(), height = maze->get_height(), num_edges = maze->get_num_edges();
+    auto &&edges = maze->GetEdges();
+    int width = maze->GetWidth(), height = maze->GetHeight(), num_edges = edges.size();
 
     stream.write(reinterpret_cast<char *>(&width), sizeof width);
     stream.write(reinterpret_cast<char *>(&height), sizeof height);
     stream.write(reinterpret_cast<char *>(&num_edges), sizeof num_edges);
 
-    for (auto &edge : maze->get_edges()) {
+    for (auto &edge : edges) {
         stream.write(reinterpret_cast<const char *>(&edge.src.x), sizeof edge.src.x);
         stream.write(reinterpret_cast<const char *>(&edge.src.y), sizeof edge.src.y);
         stream.write(reinterpret_cast<const char *>(&edge.dst.x), sizeof edge.dst.x);
@@ -46,7 +43,7 @@ int main(void) {
 
     auto writer = MazeWriter("maze2.bin");
 
-    writer.write(maze);
+    writer.Write(maze);
 }
 
 #endif //__TEST__

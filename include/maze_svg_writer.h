@@ -18,7 +18,7 @@ namespace mazer {
     public:
         MazeSvgWriter(const std::string &filename);
 
-        void write(std::shared_ptr<Maze> maze);
+        void Write(std::shared_ptr<Maze> maze);
     };
 
 }
