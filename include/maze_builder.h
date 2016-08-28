@@ -5,6 +5,7 @@
 #ifndef MAZER_MAZE_BUILDER_H
 #define MAZER_MAZE_BUILDER_H
 
+#include <algorithm>
 #include <vector>
 #include "maze.h"
 
