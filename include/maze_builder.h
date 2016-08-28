@@ -21,7 +21,9 @@ namespace mazer {
 
         std::vector<Cell *> Neighbours();
 
-        bool IsLinkedTo(Cell *cell);
+        inline bool IsLinkedTo(Cell *cell) {
+            return std::find(links.begin(), links.end(), cell) != std::end(links);
+        }
     };
 
     /**

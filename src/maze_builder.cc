@@ -31,10 +31,6 @@ std::vector<Cell *> Cell::Neighbours() {
     return vec;
 }
 
-bool Cell::IsLinkedTo(Cell *cell) {
-    return std::find(links.begin(), links.end(), cell) != std::end(links);
-}
-
 MazeBuilder::MazeBuilder(int width, int height) : width(width), height(height) {
     if (width <= 0 || height <= 0) {
         throw std::runtime_error("Maze must have positive dimensions.");
