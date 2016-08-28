@@ -14,6 +14,8 @@ namespace po = boost::program_options;
 
 using namespace mazer;
 
+using Ints = std::vector<int>;
+
 class HelpTask : public Task {
     po::options_description desc;
 public:
@@ -57,7 +59,13 @@ public:
 class GenerateTask : public InputTask {
     int seed, width, height;
 public:
-    GenerateTask(int seed, int width, int height) : seed(seed), width(width), height(height) {}
+    GenerateTask(int seed, int width, int height) : width(width), height(height) {
+        if (seed == -1) {
+            this->seed = std::chrono::system_clock::now().time_since_epoch().count();
+        } else {
+            this->seed = seed;
+        }
+    }
 
     std::shared_ptr<Maze> Read() override {
         auto gen = MazeGenerator::Factory(seed, width, height);
@@ -122,7 +130,9 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
             ("sb", po::value<std::string>(), "Save binary Maze file")
             ("lb", po::value<std::string>(), "Load binary Maze file")
             ("sv", po::value<std::string>(), "Save vector Maze file")
-            ("g", po::value<std::vector<int> >()->multitoken(), "Generate Maze with given seed")
+            ("g", po::value<Ints>()->multitoken()->zero_tokens()->
+                     implicit_value(Ints{-1, 50, 50}, "seed width height"),
+             "Generate Maze with given seed")
             ("help", "Produce help message");
     std::vector<std::shared_ptr<Task> > tasks;
 
@@ -144,13 +154,14 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
         }
 
         if (map.count("g")) {
-            auto values = map["g"].as<std::vector<int> >();
+            auto values = map["g"].as<Ints>();
+            int seed, width, height;
 
-            if (values.size() != 3) {
-                throw new std::runtime_error("Generate task requires exactly three arguments.");
-            }
+            seed = values[0];
+            width = values[1];
+            height = values[2];
 
-            std::shared_ptr<Task> task = std::make_shared<GenerateTask>(values[0], values[1], values[2]);
+            std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height);
             tasks.push_back(task);
         }
 
@@ -171,8 +182,10 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
             std::shared_ptr<Task> task = std::make_shared<WriteSvgTask>(filename);
             tasks.push_back(task);
         }
-    } catch (po::unknown_option &e) {
-        std::cout << "WARNING: encountered unknown option " << e.get_option_name() << std::endl;
+    } catch (po::error_with_option_name &e) {
+        std::cout << "WARNING: error processing argument " << e.get_option_name() << std::endl;
+    } catch (po::error_with_no_option_name &e) {
+        std::cout << "WARNING: error processing arguments" << std::endl;
     }
 
     return tasks;
