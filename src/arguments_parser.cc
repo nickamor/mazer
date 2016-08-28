@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <exception>
+#include <chrono>
 #include "arguments_parser.h"
 #include "maze_generator.h"
 #include "maze_reader.h"
@@ -130,7 +131,7 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
             ("sb", po::value<std::string>(), "Save binary Maze file")
             ("lb", po::value<std::string>(), "Load binary Maze file")
             ("sv", po::value<std::string>(), "Save vector Maze file")
-            ("g", po::value<Ints>()->multitoken()->zero_tokens()->
+            ("g", po::value<Ints>()->multitoken()->
                      implicit_value(Ints{-1, 50, 50}, "seed width height"),
              "Generate Maze with given seed")
             ("help", "Produce help message");
