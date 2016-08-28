@@ -36,6 +36,10 @@ bool Cell::IsLinkedTo(Cell *cell) {
 }
 
 MazeBuilder::MazeBuilder(int width, int height) : width(width), height(height) {
+    if (width <= 0 || height <= 0) {
+        throw std::runtime_error("Maze must have positive dimensions.");
+    }
+
     cells = new Cell[width * height];
 
     // initialise grid cell links

@@ -30,9 +30,10 @@ public:
 
         while (unvisited > 0) {
             auto &&n = cell->Neighbours();
-            auto random_n = n[rand.Next<int>(0, n.size() - 1)];
+            int i = rand.Next<int>(0, n.size() - 1);
+            auto random_n = n[i];
 
-            if (random_n) {
+            if (random_n->links.size() == 0) {
                 builder.AddLink(cell, random_n);
                 unvisited -= 1;
             }

@@ -15,20 +15,20 @@ void MazeSvgWriter::Write(std::shared_ptr<Maze> maze) {
     std::ofstream out(filename);
 
     int w = maze->GetWidth(), h = maze->GetHeight();
-    int cell_w = 10, cell_h = 10;
+    const int cell_w = 10, cell_h = 10;
 
-    out << "<svg viewBox='0 0 " << w * 10 << " " << h * 10
+    out << "<svg viewBox='0 0 " << (w + 1) * cell_w << " " << (h + 1) * cell_h
         << "' width='500' height='500' xmlns='http://www.w3.org/2000/svg'>"
         << std::endl;
 
-    out << "<rect width='" << w * (10 + 1) << "' height='" << h * (10 + 1) << "' style='fill: black' />" << std::endl;
+    out << "<rect width='" << (w + 1) * cell_w << "' height='" << (h + 1) * cell_h << "' style='fill: black' />" << std::endl;
 
     for (auto &edge : maze->GetEdges()) {
         out << "<line stroke='white' stroke-width='1' ";
-        out << "x1='" << 5 + (edge.src.x * 10) << "' ";
-        out << "y1='" << 5 + (edge.src.y * 10) << "' ";
-        out << "x2='" << 5 + (edge.dst.x * 10) << "' ";
-        out << "y2='" << 5 + (edge.dst.y * 10) << "'";
+        out << "x1='" << (cell_w / 2) + (edge.src.x * cell_w) << "' ";
+        out << "y1='" << (cell_h / 2) + (edge.src.y * cell_h) << "' ";
+        out << "x2='" << (cell_w / 2) + (edge.dst.x * cell_w) << "' ";
+        out << "y2='" << (cell_h / 2) + (edge.dst.y * cell_h) << "'";
         out << "/>" << std::endl;
     }
 
