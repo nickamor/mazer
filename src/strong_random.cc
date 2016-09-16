@@ -7,7 +7,7 @@
 using namespace mazer;
 
 StrongRandom::StrongRandom(int seed) {
-    engine = std::mt19937(seed);
+  engine = std::mt19937(seed);
 }
 
 #ifdef __TEST__
