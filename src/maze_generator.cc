@@ -115,23 +115,4 @@ MazeGenerator::Factory(MazeGeneratorType type)
         case MazeGeneratorType::AldousBroder:return std::make_shared<AldousBroderGenerator>();
         case MazeGeneratorType::Eller:return std::make_shared<EllerGenerator>();
     }
-
-    throw std::invalid_argument("Undefined maze generator type.");
 }
-
-#ifdef __TEST__
-
-#undef __TEST__
-#include "strong_random.cc"
-#include "maze.cc"
-#include "maze_builder.cc"
-#define __TEST__
-
-int main() {
-    auto gen = MazeGenerator::Factory(1, 50, 50);
-    auto m = gen->Generate();
-
-    std::cout << m << std::endl;
-}
-
-#endif

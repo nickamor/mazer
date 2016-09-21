@@ -8,7 +8,7 @@ using namespace mazer;
 
 StrongRandom::StrongRandom(int seed)
 {
-    engine = std::mt19937(seed);
+    engine = std::mt19937(static_cast<unsigned int>(seed));
 }
 
 #ifdef __TEST__
