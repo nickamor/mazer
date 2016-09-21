@@ -8,18 +8,21 @@
 #include <string>
 #include "maze.h"
 
-namespace mazer {
+namespace mazer
+{
 
-    /**
-     * Writes a vector graphics representation of a maze to disk.
-     */
-    class MazeSvgWriter {
-        std::string filename;
-    public:
-        MazeSvgWriter(const std::string &filename);
+/**
+ * Writes a vector graphics representation of a maze to disk.
+ */
+class MazeSvgWriter
+{
+    std::string filename;
+public:
+    MazeSvgWriter(const std::string &filename);
 
-        void Write(std::shared_ptr<Maze> maze);
-    };
+    void
+    Write(std::shared_ptr<Maze> maze);
+};
 
 }
 

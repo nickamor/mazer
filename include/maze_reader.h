@@ -10,19 +10,22 @@
 #include <memory>
 #include "maze.h"
 
-namespace mazer {
+namespace mazer
+{
 
-    /**
-     * Deserialises a maze from disk.
-     */
-    class MazeReader {
-    private:
-        std::string filename;
-    public:
-        MazeReader(const std::string &filename);
+/**
+ * Deserialises a maze from disk.
+ */
+class MazeReader
+{
+private:
+    std::string filename;
+public:
+    MazeReader(const std::string &filename);
 
-        std::shared_ptr<Maze> Read();
-    };
+    std::shared_ptr<Maze>
+    Read();
+};
 
 }
 

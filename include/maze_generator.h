@@ -8,22 +8,27 @@
 #include <memory>
 #include "maze.h"
 
-namespace mazer {
+namespace mazer
+{
 
-    enum class MazeGeneratorType {
-        AldousBroder,
-        Eller
-    };
+enum class MazeGeneratorType
+{
+    AldousBroder,
+    Eller
+};
 
-    /**
-     * Generates a random maze.
-     */
-    class MazeGenerator {
-    public:
-        virtual std::shared_ptr<Maze> Generate(int seed, int width, int height) = 0;
+/**
+ * Generates a random maze.
+ */
+class MazeGenerator
+{
+public:
+    virtual std::shared_ptr<Maze>
+    Generate(int seed, int width, int height) = 0;
 
-        static std::shared_ptr<MazeGenerator> Factory(MazeGeneratorType type = MazeGeneratorType::AldousBroder);
-    };
+    static std::shared_ptr<MazeGenerator>
+    Factory(MazeGeneratorType type = MazeGeneratorType::AldousBroder);
+};
 
 }
 

@@ -9,60 +9,75 @@
 #include <vector>
 #include "maze.h"
 
-namespace mazer {
+namespace mazer
+{
 
-    /**
-     * A single section of the maze, with possible adjoining cells.
-     */
-    struct Cell {
-        Cell *north, *east, *south, *west;
-        std::vector<Cell *> links;
+/**
+ * A single section of the maze, with possible adjoining cells.
+ */
+struct Cell
+{
+    Cell *north, *east, *south, *west;
+    std::vector<Cell *> links;
 
-        Cell();
+    Cell();
 
-        std::vector<Cell *> Neighbours();
+    std::vector<Cell *>
+    Neighbours();
 
-        inline bool IsLinkedTo(Cell *cell) {
-            return std::find(links.begin(), links.end(), cell) != std::end(links);
-        }
-    };
+    inline bool
+    IsLinkedTo(Cell *cell)
+    {
+        return std::find(links.begin(), links.end(), cell) != std::end(links);
+    }
+};
 
-    /**
-     *
-     */
-    struct CellPos {
-        int x, y;
-    };
+/**
+ *
+ */
+struct CellPos
+{
+    int x, y;
+};
 
-    /**
-     * Used to construct a maze, composed of a grid of cells which are interconnected.
-     */
-    class MazeBuilder {
-        int width, height;
-        Cell *cells;
-        Cell entry, exit;
+/**
+ * Used to construct a maze, composed of a grid of cells which are interconnected.
+ */
+class MazeBuilder
+{
+    int width, height;
+    Cell *cells;
+    Cell entry, exit;
 
-    public:
-        MazeBuilder(int width, int height);
+public:
+    MazeBuilder(int width, int height);
 
-        ~MazeBuilder();
+    ~MazeBuilder();
 
-        std::shared_ptr<Maze> ToMaze();
+    std::shared_ptr<Maze>
+    ToMaze();
 
-        Cell *CellAt(int x, int y);
+    Cell *
+    CellAt(int x, int y);
 
-        Cell *CellAt(CellPos pos);
+    Cell *
+    CellAt(CellPos pos);
 
-        void AddLink(Cell *lhs, Cell *rhs);
+    void
+    AddLink(Cell *lhs, Cell *rhs);
 
-        void AddLink(CellPos lhs, CellPos rhs);
+    void
+    AddLink(CellPos lhs, CellPos rhs);
 
-        void AddExits();
+    void
+    AddExits();
 
-        inline bool ValidCell(int x, int y) {
-            return ((x >= 0 && y >= 0) && (x < width && y < height));
-        }
-    };
+    inline bool
+    ValidCell(int x, int y)
+    {
+        return ((x >= 0 && y >= 0) && (x < width && y < height));
+    }
+};
 
 }
 

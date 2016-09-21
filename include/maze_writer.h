@@ -7,22 +7,25 @@
 
 #include "maze.h"
 
-namespace mazer {
+namespace mazer
+{
+
+/**
+ * Serialises a maze to disk.
+ */
+class MazeWriter
+{
+    std::string filename;
+public:
+    MazeWriter(const std::string &filename);
 
     /**
-     * Serialises a maze to disk.
+     * Write the given Maze to file.
+     * @param maze
      */
-    class MazeWriter {
-        std::string filename;
-    public:
-        MazeWriter(const std::string &filename);
-
-        /**
-         * Write the given Maze to file.
-         * @param maze
-         */
-        void Write(std::shared_ptr<Maze> maze);
-    };
+    void
+    Write(std::shared_ptr<Maze> maze);
+};
 
 }
 
