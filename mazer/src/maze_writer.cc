@@ -18,7 +18,7 @@ MazeWriter::Write(std::shared_ptr<Maze> maze)
     std::ofstream stream(filename, std::ios::binary);
 
     auto &&edges = maze->GetEdges();
-    int width = maze->GetWidth(), height = maze->GetHeight(), num_edges = static_cast<int>(edges.size);
+    int width = maze->GetWidth(), height = maze->GetHeight(), num_edges = static_cast<int>(edges.size());
 
     stream.write(reinterpret_cast<char *>(&width), sizeof width);
     stream.write(reinterpret_cast<char *>(&height), sizeof height);

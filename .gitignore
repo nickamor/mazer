@@ -27,9 +27,6 @@
 *.exe
 *.out
 *.app
-build/*
-tests/*
-mazer
 
 # Data
 *.bin

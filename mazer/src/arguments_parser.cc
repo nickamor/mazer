@@ -73,7 +73,7 @@ class GenerateTask : public InputTask
     MazeGeneratorType type;
 public:
     GenerateTask(int seed, int width, int height, MazeGeneratorType type = MazeGeneratorType::AldousBroder) : width(
-        width), height(height)
+        width), height(height), type(type)
     {
         if (seed == -1)
         {
