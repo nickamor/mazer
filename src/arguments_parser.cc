@@ -59,8 +59,9 @@ class WriteSvgTask : public FileTask, public OutputTask {
 
 class GenerateTask : public InputTask {
   int seed, width, height;
+    MazeGeneratorType type;
  public:
-  GenerateTask(int seed, int width, int height) : width(width), height(height) {
+  GenerateTask(int seed, int width, int height, MazeGeneratorType type = MazeGeneratorType::AldousBroder) : width(width), height(height) {
     if (seed == -1) {
       this->seed = (int) std::chrono::system_clock::now().time_since_epoch().count();
     } else {
@@ -69,7 +70,7 @@ class GenerateTask : public InputTask {
   }
 
   std::shared_ptr<Maze> Read() override {
-    auto gen = MazeGenerator::Factory();
+    auto gen = MazeGenerator::Factory(type);
     return gen->Generate(seed, width, height);
   }
 
@@ -131,9 +132,15 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
       ("sb", po::value<std::string>(), "Save binary Maze file")
       ("lb", po::value<std::string>(), "Load binary Maze file")
       ("sv", po::value<std::string>(), "Save vector Maze file")
-      ("g", po::value<Ints>()->multitoken()->
-           implicit_value(Ints{-1, 50, 50}, "seed width height"),
-       "Generate Maze with given seed")
+          ("g", po::value<Ints>()->multitoken()->
+                   implicit_value(Ints{-1, 50, 50}, "seed width height"),
+           "Generate Maze with given seed")
+          ("ga", po::value<Ints>()->multitoken()->
+                   implicit_value(Ints{-1, 50, 50}, "seed width height"),
+           "Aldous-Broder Generate Maze with given seed")
+          ("ge", po::value<Ints>()->multitoken()->
+                   implicit_value(Ints{-1, 50, 50}, "seed width height"),
+           "Ellers Generate Maze with given seed")
       ("help", "Produce help message");
   std::vector<std::shared_ptr<Task> > tasks;
 
@@ -154,17 +161,41 @@ std::vector<std::shared_ptr<Task> > ArgumentsParser::GetTasks() {
       return tasks;
     }
 
-    if (map.count("g")) {
-      auto values = map["g"].as<Ints>();
-      int seed, width, height;
+      if (map.count("g")) {
+          auto values = map["g"].as<Ints>();
+          int seed, width, height;
 
-      seed = values[0];
-      width = values[1];
-      height = values[2];
+          seed = values[0];
+          width = values[1];
+          height = values[2];
 
-      std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height);
-      tasks.push_back(task);
-    }
+          std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height);
+          tasks.push_back(task);
+      }
+
+      if (map.count("ga")) {
+          auto values = map["ga"].as<Ints>();
+          int seed, width, height;
+
+          seed = values[0];
+          width = values[1];
+          height = values[2];
+
+          std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::AldousBroder);
+          tasks.push_back(task);
+      }
+
+      if (map.count("ge")) {
+          auto values = map["ge"].as<Ints>();
+          int seed, width, height;
+
+          seed = values[0];
+          width = values[1];
+          height = values[2];
+
+          std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::Eller);
+          tasks.push_back(task);
+      }
 
     if (map.count("lb")) {
       std::string filename = map["lb"].as<std::string>();

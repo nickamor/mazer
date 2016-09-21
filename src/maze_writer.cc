@@ -27,6 +27,8 @@ void MazeWriter::Write(std::shared_ptr<Maze> maze) {
     stream.write(reinterpret_cast<const char *>(&edge.dst.x), sizeof edge.dst.x);
     stream.write(reinterpret_cast<const char *>(&edge.dst.y), sizeof edge.dst.y);
   }
+
+
 }
 
 #ifdef __TEST__
