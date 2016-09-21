@@ -46,7 +46,7 @@ class AldousBroderGenerator : public MazeGenerator {
 
 class EllerGenerator : public MazeGenerator {
  public:
-  std::shared_ptr<Maze> Generate(int seed, int width, int height) override {
+    std::shared_ptr<Maze> Generate(int seed, int width, int height) override {
     MazeBuilder builder(width, height);
     StrongRandom rand(seed);
 

@@ -27,6 +27,10 @@ namespace mazer {
         inline IntType Next(IntType floor, IntType ciel) {
             return std::uniform_int_distribution<IntType>(floor, ciel)(engine);
         }
+
+        inline bool NextBool() {
+            return Next(0, 1);
+        }
     };
 
 }

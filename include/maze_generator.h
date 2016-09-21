@@ -10,29 +10,21 @@
 
 namespace mazer {
 
+    enum class MazeGeneratorType {
+        AldousBroder,
+        Eller
+    };
+
     /**
      * Generates a random maze.
      */
     class MazeGenerator {
-    protected:
-        int seed, width, height;
-
-        MazeGenerator(int seed, int width, int height);
-
     public:
-        virtual std::shared_ptr<Maze> Generate() = 0;
+        virtual std::shared_ptr<Maze> Generate(int seed, int width, int height) = 0;
 
-        /**
-         * Create a MazeGenerator with the given parameters.
-         * @param seed
-         * @param width
-         * @param height
-         * @return
-         */
-        static std::shared_ptr<MazeGenerator> Factory(int seed, int width, int height);
+        static std::shared_ptr<MazeGenerator> Factory(MazeGeneratorType type = MazeGeneratorType::AldousBroder);
     };
 
 }
-
 
 #endif //MAZER_GENERATOR_H

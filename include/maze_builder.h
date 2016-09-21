@@ -28,6 +28,13 @@ namespace mazer {
     };
 
     /**
+     *
+     */
+    struct CellPos {
+        int x, y;
+    };
+
+    /**
      * Used to construct a maze, composed of a grid of cells which are interconnected.
      */
     class MazeBuilder {
@@ -44,7 +51,11 @@ namespace mazer {
 
         Cell *CellAt(int x, int y);
 
+        Cell *CellAt(CellPos pos);
+
         void AddLink(Cell *lhs, Cell *rhs);
+
+        void AddLink(CellPos lhs, CellPos rhs);
 
         void AddExits();
 
