@@ -8,10 +8,19 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include "maze.h"
 
 namespace mazer
 {
+
+	class InvalidMaze : public std::invalid_arguments
+	{
+	};
+
+	class MazeFileNotFound : public std::runtime_error
+	{
+	};
 
 /**
  * Deserialises a maze from disk.
@@ -24,7 +33,7 @@ public:
     MazeReader(const std::string &filename);
 
     std::shared_ptr<Maze>
-    Read();
+    Read() throw (InvalidMaze, MazeFileNotFound);
 };
 
 }
