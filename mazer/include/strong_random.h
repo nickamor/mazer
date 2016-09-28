@@ -37,6 +37,12 @@ public:
     {
         return Next(0, 1);
     }
+
+    template<class RandomIt>
+    inline void
+    Shuffle(RandomIt first, RandomIt last) {
+        std::shuffle(first, last, engine);
+    }
 };
 
 }

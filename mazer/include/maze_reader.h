@@ -14,7 +14,7 @@
 namespace mazer
 {
 
-	class InvalidMaze : public std::invalid_arguments
+	class InvalidMaze : public std::invalid_argument
 	{
 	};
 
@@ -32,6 +32,7 @@ private:
 public:
     MazeReader(const std::string &filename);
 
+    // TODO: use weak_ptr here
     std::shared_ptr<Maze>
     Read() throw (InvalidMaze, MazeFileNotFound);
 };

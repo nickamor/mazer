@@ -15,6 +15,7 @@ namespace mazer
 /**
  * A single section of the maze, with possible adjoining cells.
  */
+    // TODO: evaluate non-intrusive datastructure for grid?
 struct Cell
 {
     Cell *north, *east, *south, *west;
@@ -22,6 +23,7 @@ struct Cell
 
     Cell();
 
+    // TODO: hand out shared_ptrs instead of raw pointers
     std::vector<Cell *>
     Neighbours();
 
@@ -46,6 +48,7 @@ struct CellPos
 class MazeBuilder
 {
     int width, height;
+    // TODO: use const vector or vector<unique_ptr> for cell storage
     Cell *cells;
     Cell entry, exit;
 

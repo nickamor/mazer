@@ -23,6 +23,7 @@ enum class MazeGeneratorType
 class MazeGenerator
 {
 public:
+	// TODO: use unique_ptr here
     virtual std::shared_ptr<Maze>
     Generate(int seed, int width, int height) = 0;
 

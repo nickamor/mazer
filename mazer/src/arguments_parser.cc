@@ -142,19 +142,7 @@ OutputTask::~OutputTask()
 
 }
 
-ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : argc(argc), argv(argv)
-{
-#ifdef __TEST__
-
-    std::cout << argc << " arguments:" << std::endl;
-
-    for (int i = 0; i < argc; ++i)
-    {
-        std::cout << argv[i] << std::endl;
-    }
-
-#endif
-}
+ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : argc(argc), argv(argv) {}
 
 std::vector<std::shared_ptr<Task> >
 ArgumentsParser::GetTasks()
@@ -183,15 +171,9 @@ ArgumentsParser::GetTasks()
         po::store(po::parse_command_line(argc, argv, desc), map);
         po::notify(map);
 
-#ifdef __TEST__
-
-        std::cout << map.size() << " arguments parsed" << std::endl;
-
-#endif
-
         if (map.size() == 0 || map.count("help"))
         {
-            std::shared_ptr<Task> task = std::make_shared<HelpTask>(desc);
+            auto task = std::make_shared<HelpTask>(desc);
             tasks.push_back(task);
 
             return tasks;
@@ -206,7 +188,7 @@ ArgumentsParser::GetTasks()
             width = values[1];
             height = values[2];
 
-            std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height);
+            auto task = std::make_shared<GenerateTask>(seed, width, height);
             tasks.push_back(task);
         }
 
@@ -219,8 +201,7 @@ ArgumentsParser::GetTasks()
             width = values[1];
             height = values[2];
 
-            std::shared_ptr<Task>
-                task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::AldousBroder);
+            auto task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::AldousBroder);
             tasks.push_back(task);
         }
 
@@ -233,28 +214,28 @@ ArgumentsParser::GetTasks()
             width = values[1];
             height = values[2];
 
-            std::shared_ptr<Task> task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::Eller);
+            auto task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::Eller);
             tasks.push_back(task);
         }
 
         if (map.count("lb"))
         {
             std::string filename = map["lb"].as<std::string>();
-            std::shared_ptr<Task> task = std::make_shared<ReadFileTask>(filename);
+            auto task = std::make_shared<ReadFileTask>(filename);
             tasks.push_back(task);
         }
 
         if (map.count("sb"))
         {
             std::string filename = map["sb"].as<std::string>();
-            std::shared_ptr<Task> task = std::make_shared<WriteFileTask>(filename);
+            auto task = std::make_shared<WriteFileTask>(filename);
             tasks.push_back(task);
         }
 
         if (map.count("sv"))
         {
             std::string filename = map["sv"].as<std::string>();
-            std::shared_ptr<Task> task = std::make_shared<WriteSvgTask>(filename);
+            auto task = std::make_shared<WriteSvgTask>(filename);
             tasks.push_back(task);
         }
     }

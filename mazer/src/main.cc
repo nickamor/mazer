@@ -7,8 +7,6 @@
 
 using namespace mazer;
 
-using namespace std;
-
 int
 main(int argc, char const *argv[])
 {
@@ -18,16 +16,16 @@ main(int argc, char const *argv[])
 
         auto tasks = handler.GetTasks();
 
-        shared_ptr<Maze> maze = nullptr;
+        std::shared_ptr<Maze> maze = nullptr;
 
         for (auto &task : tasks)
         {
-            if (auto input = dynamic_pointer_cast<InputTask>(task))
+            if (auto input = std::dynamic_pointer_cast<InputTask>(task))
             {
                 maze = input->Read();
             }
 
-            if (auto output = dynamic_pointer_cast<OutputTask>(task))
+            if (auto output = std::dynamic_pointer_cast<OutputTask>(task))
             {
                 output->Write(maze);
             }
@@ -39,7 +37,7 @@ main(int argc, char const *argv[])
     }
     catch (std::exception &e)
     {
-        cerr << e.what() << '\n';
+        std::cerr << "Fatal error: " << e.what() << '\n';
         return 1;
     }
 }

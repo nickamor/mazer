@@ -15,7 +15,7 @@ MazeReader::MazeReader(const std::string &filename) : filename(filename)
 }
 
 std::shared_ptr<Maze>
-MazeReader::Read()
+MazeReader::Read() throw(InvalidMaze, MazeFileNotFound)
 {
     int width, height, num_edges;
 
