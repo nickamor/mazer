@@ -21,11 +21,13 @@ struct SetState {
     std::vector<int> cells;
 
     bool SameSet(const CellPos& lhs, const CellPos& rhs) {
-        return cells.at(unsigned((lhs.y * width) + lhs.x)) == cells.at(unsigned((rhs.y * width) + rhs.x));
+        return cells.at(unsigned((lhs.y * width) + lhs.x)) == 
+            cells.at(unsigned((rhs.y * width) + rhs.x));
     }
 
     void Link(const CellPos& lhs, const CellPos& rhs) {
-        cells[(width * lhs.y) + lhs.x] = cells.at(unsigned((width * rhs.y) + rhs.x));
+        cells[(width * lhs.y) + lhs.x] = 
+            cells.at(unsigned((width * rhs.y) + rhs.x));
         builder.AddLink(lhs, rhs);
     }
 
@@ -77,8 +79,9 @@ EllerGenerator::Generate(int seed, int width, int height)
 
         // randomly join adjacent sets
         for (int j = 0; j < width - 1; ++j) {
-            if (rand.NextBool() && !state.SameSet(CellPos{i, j}, CellPos{i + 1, j})) {
-                state.Link(CellPos{i, j + 1}, CellPos{i, j});
+            CellPos current{i, j}, adjacent{i + 1, j};
+            if (rand.NextBool() && !state.SameSet(current, adjacent)) {
+                state.Link(current, adjacent);
             }
         }
 

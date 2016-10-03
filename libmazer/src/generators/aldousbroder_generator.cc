@@ -9,7 +9,8 @@
 using namespace mazer;
 
 /**
- * Concrete implementation of MazeGenerator that uses the Aldous-Broder algorithm.
+ * Concrete implementation of MazeGenerator that uses the Aldous-Broder 
+ * algorithm.
  */
 
 AldousBroderGenerator::~AldousBroderGenerator() {

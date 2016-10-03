@@ -11,7 +11,8 @@ Edge::Point::Point(int x, int y) : x(x), y(y) {}
 
 Edge::Edge(int x1, int y1, int x2, int y2) : src(x1, y1), dst(x2, y2) {}
 
-Maze::Maze(int width, int height, std::set<Edge> edges) : width(width), height(height), edges(edges) {}
+Maze::Maze(int width, int height, std::set<Edge> edges) : 
+    width(width), height(height), edges(edges) {}
 
 std::string
 Maze::ToJsonString()

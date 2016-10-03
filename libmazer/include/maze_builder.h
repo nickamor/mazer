@@ -43,7 +43,8 @@ struct CellPos
 };
 
 /**
- * Used to construct a maze, composed of a grid of cells which are interconnected.
+ * Used to construct a maze, composed of a grid of cells which are 
+ * interconnected.
  */
 class MazeBuilder
 {

@@ -25,7 +25,9 @@ MazeGenerator::Factory(MazeGeneratorType type)
 {
     switch (type)
     {
-        case MazeGeneratorType::AldousBroder:return std::make_unique<AldousBroderGenerator>();
-        case MazeGeneratorType::Eller:return std::make_unique<EllerGenerator>();
+        case MazeGeneratorType::AldousBroder:
+        	return std::make_unique<AldousBroderGenerator>();
+        case MazeGeneratorType::Eller:
+        	return std::make_unique<EllerGenerator>();
     }
 }

@@ -78,7 +78,8 @@ struct Edge
 };
 
 /**
- * An immutable set of edges that define the pathways of a maze of defined width and height.
+ * An immutable set of edges that define the pathways of a maze of specified 
+ * width and height.
  */
 class Maze
 {
