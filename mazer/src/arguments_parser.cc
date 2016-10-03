@@ -72,12 +72,14 @@ class GenerateTask : public InputTask
     int seed, width, height;
     MazeGeneratorType type;
 public:
-    GenerateTask(int seed, int width, int height, MazeGeneratorType type = MazeGeneratorType::AldousBroder) : width(
-        width), height(height), type(type)
+    GenerateTask(int seed, int width, int height, 
+        MazeGeneratorType type = MazeGeneratorType::AldousBroder) : 
+        width(width), height(height), type(type)
     {
         if (seed == -1)
         {
-            this->seed = (int) std::chrono::system_clock::now().time_since_epoch().count();
+            this->seed = int(std::chrono::system_clock::now()
+                .time_since_epoch().count());
         }
         else
         {
@@ -142,7 +144,8 @@ OutputTask::~OutputTask()
 
 }
 
-ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : argc(argc), argv(argv) {}
+ArgumentsParser::ArgumentsParser(int argc, char const *argv[]) : 
+    argc(argc), argv(argv) {}
 
 std::vector<std::shared_ptr<Task> >
 ArgumentsParser::GetTasks()
@@ -201,7 +204,8 @@ ArgumentsParser::GetTasks()
             width = values[1];
             height = values[2];
 
-            auto task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::AldousBroder);
+            auto task = std::make_shared<GenerateTask>(seed, width, height, 
+                MazeGeneratorType::AldousBroder);
             tasks.push_back(task);
         }
 
@@ -214,7 +218,8 @@ ArgumentsParser::GetTasks()
             width = values[1];
             height = values[2];
 
-            auto task = std::make_shared<GenerateTask>(seed, width, height, MazeGeneratorType::Eller);
+            auto task = std::make_shared<GenerateTask>(seed, width, height, 
+                MazeGeneratorType::Eller);
             tasks.push_back(task);
         }
 
@@ -241,7 +246,8 @@ ArgumentsParser::GetTasks()
     }
     catch (po::error_with_option_name &e)
     {
-        std::cout << "WARNING: error processing argument " << e.get_option_name() << std::endl;
+        std::cout << "WARNING: error with argument " << e.get_option_name() 
+            << std::endl;
     }
 
     return tasks;
