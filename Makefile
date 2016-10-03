@@ -1,41 +1,26 @@
-## mazer - C++ Maze generator
-## Nick Amor 2016
+CXXFLAGS := -std=c++14 -Wall -pedantic -Ilibmazer/include -Imazer/include
+LDFLAGS := -g -lboost_program_options
 
-# Compiler options
-CXXFLAGS := -std=c++14 -Wall -Wextra -Wfatal-errors -pedantic -I/usr/local/include -Iinclude
-LDFLAGS  := -lboost_program_options -g -L/usr/local/lib 
+SOURCES := libmazer/src/maze.cc \
+			libmazer/src/maze_builder.cc \
+			libmazer/src/maze_generator.cc \
+			libmazer/src/maze_reader.cc \
+			libmazer/src/maze_svg_writer.cc \
+			libmazer/src/maze_writer.cc \
+			libmazer/src/strong_random.cc \
+			libmazer/src/generators/aldousbroder_generator.cc \
+			libmazer/src/generators/eller_generator.cc \
+			mazer/src/arguments_parser.cc \
+			mazer/src/main.cc
 
-# Directories
-SRCDIR := src
-INCLUDEDIR := include
-BUILDDIR := build
-TESTDIR := tests
+OBJECTS := $(patsubst %.cc,%.o,$(SOURCES))
 
-# Output files
-TARGET := mazer
-SOURCES := $(wildcard $(SRCDIR)/*.cc)
-OBJECTS := $(patsubst $(SRCDIR)/%.cc,$(BUILDDIR)/%.o,$(SOURCES))
-TEST_TARGETS := $(patsubst $(SRCDIR)/%.cc,$(TESTDIR)/%,$(SOURCES))
+TARGET := mazer_app
 
-.PHONY: all clean test
-
-all: $(BUILDDIR) $(TARGET)
-
-clean:
-	$(RM) -r $(TARGET) $(BUILDDIR) $(TESTDIR)
+.PHONY: clean
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) $^ -o $@
 
-$(BUILDDIR) $(TESTDIR):
-	mkdir $@
-
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cc
-	$(CXX) -c -o $@ $< $(CXXFLAGS)
-
-# test : build and run all tests
-# tests/% : build and run specific test
-test: $(TESTDIR) $(TEST_TARGETS)
-
-tests/%: $(SRCDIR)/%.cc
-	$(CXX) $(LDFLAGS) -o $@ $(CXXFLAGS) -D __TEST__ $<
+clean:
+	$(RM) $(TARGET) $(OBJECTS)

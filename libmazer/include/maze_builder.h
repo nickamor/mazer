@@ -57,7 +57,7 @@ public:
 
     ~MazeBuilder();
 
-    std::shared_ptr<Maze>
+    std::unique_ptr<Maze>
     ToMaze();
 
     Cell *

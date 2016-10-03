@@ -86,7 +86,7 @@ MazeBuilder::~MazeBuilder()
     cells = nullptr;
 }
 
-std::shared_ptr<Maze>
+std::unique_ptr<Maze>
 MazeBuilder::ToMaze()
 {
     std::set<Edge> edges;
@@ -119,7 +119,7 @@ MazeBuilder::ToMaze()
         }
     }
 
-    return std::make_shared<Maze>(width, height, edges);
+    return std::make_unique<Maze>(width, height, edges);
 }
 
 Cell *
