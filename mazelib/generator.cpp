@@ -183,16 +183,10 @@ void EllerGen::generate()
     // For each row
     for (int y = 0; y < h; ++y)
     {
-        // For each cell
-        for (int x = 0; x < w; ++x)
+        // For each cell, skipping the left-most column
+        for (int x = 1; x < w; ++x)
         {
             auto cell = &cells[(y * w) + x];
-
-            // Skip the left-most column
-            if (cell->left == nullptr)
-            {
-                continue;
-            }
 
             auto set = row_state.set_for(cell);
             auto prior_set = row_state.set_for(cell->left);
