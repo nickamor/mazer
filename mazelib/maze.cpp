@@ -36,7 +36,9 @@ bool Edge::operator>=(const Edge &rhs) const {
   return !(*this < rhs);
 }
 
-Cell::Cell(int x, int y, int i) : x(x), y(y), i(i) {}
+Cell::Cell(int x, int y, int i)
+        : x(x), y(y), i(i),
+          left(nullptr), right(nullptr), up(nullptr), down(nullptr) {}
 
 Cell::Cell() : Cell(0, 0, 0) {}
 

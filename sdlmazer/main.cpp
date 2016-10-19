@@ -80,7 +80,7 @@ void App::run()
                     break;
                 case SDLK_g:
                     maze = std::make_unique<DrawableMaze>(10, 10);
-                    maze->generate();
+                    maze->generate<EllerGen>();
                     maze->solve();
                     break;
                 default:
