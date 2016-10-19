@@ -21,12 +21,13 @@ class Generator
 
     void seed(const int s);
 
+    void link(Cell* cell, Cell* next);
+
   protected:
     int nextRand(int min, int max);
 
     IMaze& maze;
 
-  private:
     std::mt19937 engine;
 };
 
@@ -46,6 +47,8 @@ class EllerGen
 public:
     EllerGen(IMaze& maze);
     ~EllerGen();
+
+    void generate();
 };
 }
 
