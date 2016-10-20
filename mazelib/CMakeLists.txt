@@ -1,3 +1,10 @@
-set(SOURCES maze.cpp generator.cpp solver.cpp mazer.cpp reader.cpp reader.h writer.cpp writer.h)
+set(SOURCES maze.cpp 
+    generator.cpp 
+    solver.cpp 
+    mazer.cpp 
+    reader.cpp 
+    writer.cpp
+    generators/aldousbroder.cpp
+    generators/eller.cpp)
 add_library(mazelib ${SOURCES})
 target_include_directories (mazelib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
