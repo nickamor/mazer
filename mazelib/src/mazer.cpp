@@ -114,7 +114,7 @@ void Maze::link(Cell *lhs, Cell *rhs)
     rhs->links.emplace_back(lhs);
 }
 
-const std::deque<Cell *> &Maze::getSolution()
+const std::list<Cell *> &Maze::getSolution()
 {
     return solution;
 }
@@ -156,7 +156,7 @@ std::set<Edge> Maze::getEdges() const
     return edges;
 }
 
-void Maze::setSolution(const std::deque<Cell *> &path)
+void Maze::setSolution(const std::list<Cell *> &path)
 {
     solution = path;
 }

@@ -38,6 +38,11 @@ class DfsSolver
   public:
     DfsSolver(IMaze &maze);
     ~DfsSolver();
+
+    void solve();
+
+private:
+    IMaze &maze;
 };
 
 /** 

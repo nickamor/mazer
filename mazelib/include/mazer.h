@@ -5,7 +5,7 @@
 #ifndef MAZELIB_MAZER_H
 #define MAZELIB_MAZER_H
 
-#include <deque>
+#include <list>
 #include <vector>
 #include "generator.h"
 #include "maze.h"
@@ -35,8 +35,8 @@ public:
   int getWidth() const;
   int getHeight() const;
 
-  const std::deque<Cell *> &getSolution();
-  void setSolution(const std::deque<Cell *> &path);
+  const std::list<Cell *> &getSolution();
+  void setSolution(const std::list<Cell *> &path);
 
   void resize(int w, int h);
 
@@ -80,7 +80,7 @@ private:
   const int w, h;
 
   std::vector<Cell> cells;
-  std::deque<Cell *> solution;
+  std::list<Cell *> solution;
 };
 }
 

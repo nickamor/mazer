@@ -5,7 +5,7 @@
 #ifndef MAZELIB_MAZE_H
 #define MAZELIB_MAZE_H
 
-#include <deque>
+#include <list>
 #include <vector>
 #include <set>
 
@@ -51,8 +51,8 @@ public:
 
     virtual void link(Cell *lhs, Cell *rhs) = 0;
 
-  virtual const std::deque<Cell *> &getSolution() = 0;
-  virtual void setSolution(const std::deque<Cell *> &solution) = 0;
+  virtual const std::list<Cell *> &getSolution() = 0;
+  virtual void setSolution(const std::list<Cell *> &solution) = 0;
 
   virtual std::set<Edge> getEdges() const = 0;
 

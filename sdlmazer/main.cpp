@@ -53,8 +53,6 @@ App::App()
 void App::run()
 {
     auto maze = std::make_unique<DrawableMaze>(10, 10);
-    //    maze->generate();
-    //    maze->solve();
 
     SDL_Event event;
     bool done = false;
@@ -73,15 +71,19 @@ void App::run()
                 case SDLK_ESCAPE:
                     done = true;
                     break;
-                    case SDLK_e:
+                    case SDLK_1:
+                        maze = std::make_unique<DrawableMaze>(10, 10);
+                        maze->generate();
+                        break;
+                    case SDLK_2:
                         maze = std::make_unique<DrawableMaze>(10, 10);
                         maze->generate<EllerGen>();
+                        break;
+                    case SDLK_q:
                         maze->solve();
                         break;
-                    case SDLK_g:
-                        maze = std::make_unique<DrawableMaze>(10, 10);
-                        maze->generate<AldousBroderGen>();
-                        maze->solve();
+                    case SDLK_w:
+                        maze->solve<DfsSolver>();
                         break;
                     case SDLK_F1:
                         maze->write("maze.bin");
