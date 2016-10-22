@@ -77,9 +77,22 @@ void App::run()
                 case SDLK_ESCAPE:
                     done = true;
                     break;
-                case SDLK_g:
+                    case SDLK_e:
+                        maze = std::make_unique<DrawableMaze>(10, 10);
+                        maze->generate<EllerGen>();
+                        maze->solve();
+                        break;
+                    case SDLK_g:
+                        maze = std::make_unique<DrawableMaze>(10, 10);
+                        maze->generate<AldousBroderGen>();
+                        maze->solve();
+                        break;
+                case SDLK_F1:
+                    maze->write("maze.bin");
+                    break;
+                case SDLK_F2:
                     maze = std::make_unique<DrawableMaze>(10, 10);
-                    maze->generate<EllerGen>();
+                    maze->read("maze.bin");
                     maze->solve();
                     break;
                 default:
@@ -102,14 +115,15 @@ void App::run()
 
 int main()
 {
-    try
-    {
+//    try
+//    {
         App app;
         app.run();
-    }
-    catch (std::exception &e)
-    {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "A fatal error occurred.", e.what(), NULL);
-        return 1;
-    }
+//    }
+//    catch (std::exception &e)
+//    {
+//        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "A fatal error occurred.", e.what(), NULL);
+//
+//        return 1;
+//    }
 }

@@ -5,13 +5,13 @@
 #ifndef MAZELIB_MAZER_H
 #define MAZELIB_MAZER_H
 
-#include <vector>
 #include <deque>
-#include "maze.h"
-#include "solver.h"
+#include <vector>
 #include "generator.h"
-#include "writer.h"
+#include "maze.h"
 #include "reader.h"
+#include "solver.h"
+#include "writer.h"
 
 namespace mazer
 {
@@ -27,6 +27,11 @@ public:
   void clear();
 
   std::vector<Cell> &getCells();
+    Cell &getCell(int x, int y);
+    Cell &getCell(int i);
+
+    void link(Cell *lhs, Cell *rhs);
+
   int getWidth() const;
   int getHeight() const;
 
@@ -37,14 +42,14 @@ public:
 
   std::set<Edge> getEdges() const;
 
-  //    template <typename ReaderType>
-  //    static Maze read(const std::string& filename)
-  //    {
-  //        ReaderType reader();
-  //        return reader.read(filename);
-  //    }
+  template <typename ReaderType = BinaryReader>
+  void read(const std::string& filename)
+  {
+      ReaderType reader(*this);
+      reader.read(filename);
+  }
 
-  template <typename WriterType>
+  template <typename WriterType = BinWriter>
   void write(const std::string &filename)
   {
     WriterType writer(*this);

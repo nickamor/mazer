@@ -22,12 +22,8 @@ void AldousBroderGen::generate()
 {
     int w = maze.getWidth(), h = maze.getHeight();
 
-    maze.clear();
-    maze.resize(w, h);
-
     int unvisited = w * h - 1;
-    auto cells = maze.getCells();
-    auto cell = &cells[nextRand(0, int(cells.size() - 1))];
+    auto cell = &maze.getCell(nextRand(0, w * h - 1));
 
     while (unvisited > 0)
     {
@@ -35,7 +31,7 @@ void AldousBroderGen::generate()
 
         if (next->links.empty())
         {
-            link(cell, next);
+            maze.link(cell, next);
 
             unvisited--;
         }

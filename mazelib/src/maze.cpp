@@ -7,12 +7,6 @@
 
 using namespace mazer;
 
-Cell::Cell(int x, int y, int i)
-        : x(x), y(y), i(i),
-          left(nullptr), right(nullptr), up(nullptr), down(nullptr) {}
-
-Cell::Cell() : Cell(0, 0, 0) {}
-
 bool Cell::linkedTo(const Cell *cell) const {
   return std::find(links.begin(), links.end(), cell) != std::end(links);
 }

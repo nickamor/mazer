@@ -12,12 +12,12 @@
 namespace mazer
 {
 
-class FailedOpeningFileException
+class FileNotWritable
     : public std::runtime_error
 {
   public:
-    FailedOpeningFileException(const std::string &filename)
-        : std::runtime_error("Failed to open file: " + filename){};
+    FileNotWritable(const std::string &filename)
+        : std::runtime_error("Failed to open file for writing: " + filename){};
 };
 
 class IWriter

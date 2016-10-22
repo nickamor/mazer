@@ -15,12 +15,10 @@ namespace mazer
 struct Cell
 {
 public:
-  int x, y, i;
-  Cell *left, *right, *up, *down;
+  int x = -1, y = -1, i = -1;
+  Cell *left = nullptr, *right = nullptr, *up = nullptr, *down = nullptr;
   std::vector<Cell *> links, nbrs;
 
-  Cell(int x, int y, int i);
-  Cell();
   bool linkedTo(const Cell *cell) const;
 };
 
@@ -47,6 +45,10 @@ public:
   virtual int getWidth() const = 0;
   virtual int getHeight() const = 0;
   virtual std::vector<Cell> &getCells() = 0;
+    virtual Cell &getCell(int x, int y) = 0;
+    virtual Cell &getCell(int i) = 0;
+
+    virtual void link(Cell *lhs, Cell *rhs) = 0;
 
   virtual const std::deque<Cell *> &getSolution() = 0;
   virtual void setSolution(const std::deque<Cell *> &solution) = 0;

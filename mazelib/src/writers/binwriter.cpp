@@ -15,7 +15,7 @@ void BinWriter::write(const std::string &filename)
 
     if (!file)
     {
-        throw FailedOpeningFileException(filename);
+        throw FileNotWritable(filename);
     }
 
     file.exceptions(std::ios::badbit | std::ios::failbit);

@@ -1,3 +1,7 @@
+//
+// Created by Nicholas Amor on 19/10/16.
+//
+
 #ifndef SDLMAZER_MAIN_H
 #define SDLMAZER_MAIN_H
 

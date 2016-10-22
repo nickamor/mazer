@@ -18,6 +18,11 @@ Maze::~Maze() {}
 
 void Maze::clear()
 {
+    for (auto& cell : cells)
+    {
+        cell.links.clear();
+        cell.nbrs.clear();
+    }
     cells.clear();
     solution.clear();
 }
@@ -35,45 +40,43 @@ void Maze::resize(int w, int h)
         const int x = i % w;
         const int y = i / w;
 
-        cells[i] = Cell(x, y, i);
+        auto& cell = cells[i];
+        cell.i = i;
+        cell.x = x;
+        cell.y = y;
 
         // Set the left neighbour
         if (x > 0)
         {
-            Cell *cell = &cells[i - 1];
-            cells[i].left = cell;
-            cells[i].nbrs.push_back(cell);
+            auto next = &cells[i - 1];
+            cell.left = next;
+            cell.nbrs.emplace_back(next);
         }
 
         // Set the right neighbour
         if (x < w - 1)
         {
-            Cell *cell = &cells[i + 1];
-            cells[i].right = cell;
-            cells[i].nbrs.push_back(cell);
+            auto next = &cells[i + 1];
+            cell.right = next;
+            cell.nbrs.emplace_back(next);
         }
 
         // Set the north neighbour
         if (y > 0)
         {
-            Cell *cell = &cells[i - w];
-            cells[i].up = cell;
-            cells[i].nbrs.push_back(cell);
+            auto next = &cells[i - w];
+            cell.up = next;
+            cell.nbrs.emplace_back(next);
         }
 
         // Set the south neighbour
         if (y < h - 1)
         {
-            Cell *cell = &cells[i + w];
-            cells[i].down = cell;
-            cells[i].nbrs.push_back(cell);
+            auto next = &cells[i + w];
+            cell.down = next;
+            cell.nbrs.emplace_back(next);
         }
     }
-}
-
-std::vector<Cell> &Maze::getCells()
-{
-    return cells;
 }
 
 int Maze::getWidth() const
@@ -84,6 +87,25 @@ int Maze::getWidth() const
 int Maze::getHeight() const
 {
     return h;
+}
+
+std::vector<Cell> &Maze::getCells()
+{
+    return cells;
+}
+
+Cell &Maze::getCell(int x, int y) {
+    return cells[(y * w) + x];
+}
+
+Cell &Maze::getCell(int i) {
+    return cells[i];
+}
+
+void Maze::link(Cell *lhs, Cell *rhs)
+{
+    lhs->links.emplace_back(rhs);
+    rhs->links.emplace_back(lhs);
 }
 
 const std::deque<Cell *> &Maze::getSolution()

@@ -11,11 +11,13 @@ using namespace mazer;
 struct RowState
 {
   public:
-    RowState(int starting_set = 0) : next_set(starting_set) {}
+    using Set = int;
 
-    std::map<int, std::vector<Cell *>> cells_in_set;
-    std::map<int, int> set_for_cell;
-    int next_set;
+    RowState(Set starting_set = 0) : next_set(starting_set) {}
+
+    std::map<Set, std::vector<Cell *>> cells_in_set;
+    std::map<int, Set> set_for_cell;
+    Set next_set;
 
     /**
      * Records a given set for the given cell.
@@ -23,7 +25,7 @@ struct RowState
      * @param cell
      * @return
      */
-    void record(int set, Cell *cell)
+    void record(Set set, Cell *cell)
     {
         set_for_cell[cell->x] = set;
 
@@ -36,7 +38,7 @@ struct RowState
      * @param cell
      * @return
      */
-    int set_for(Cell *cell)
+    Set set_for(Cell *cell)
     {
         if (set_for_cell.find(cell->x) == set_for_cell.end())
         {
@@ -53,7 +55,7 @@ struct RowState
      * @param loser
      * @return
      */
-    void merge(int winner, int loser)
+    void merge(Set winner, Set loser)
     {
         for (auto cell : cells_in_set[loser])
         {
@@ -104,54 +106,53 @@ EllerGen::~EllerGen()
 void EllerGen::generate()
 {
     RowState row_state;
-    auto &cells = maze.getCells();
     int w = maze.getWidth(), h = maze.getHeight();
 
     // For each row
-    for (int y = 0; y < h; ++y)
+    for (int row = 0; row < h; ++row)
     {
         // For each cell, skipping the left-most column
-        for (int x = 1; x < w; ++x)
+        for (int col = 1; col < w; ++col)
         {
-            auto cell = &cells[(y * w) + x];
+            auto& cell = maze.getCell(col, row);
 
-            auto set = row_state.set_for(cell);
-            auto prior_set = row_state.set_for(cell->left);
+            auto set = row_state.set_for(&cell);
+            auto prior_set = row_state.set_for(cell.left);
 
             // Link this cell and the previous if they have distinct sets,
             // and either this is the last row or 50/50 chance
-            auto should_link = set != prior_set &&
-                               (cell->down == nullptr || nextRand(0, 1) == 0);
-
-            if (should_link)
+            if (set != prior_set)
             {
-                auto next = cell->left;
-                link(cell, next);
+                if (cell.down == nullptr || nextRand(0, 1) == 0)
+                {
+                    auto next = cell.left;
+                    maze.link(&cell, next);
 
-                row_state.merge(prior_set, set);
+                    row_state.merge(prior_set, set);
+                }
             }
         }
 
         // If this is not the last row
-        if (y < h - 1)
+        if (row < h - 1)
         {
             // Prepare the next row state
             auto next_row = row_state.next();
 
             // For each set of cells in the row
-            for (auto list : row_state.each_set())
+            for (auto& list : row_state.each_set())
             {
                 std::shuffle(list.begin(), list.end(), engine);
 
                 // For each cell in the set
-                for (auto cell : list)
+                for (auto& cell : list)
                 {
                     // If this is the first(random) cell or 50/50 chance, link
                     // this cell and the cell lower than it
                     if (cell == list.front() || nextRand(0, 1) == 0)
                     {
                         auto next = cell->down;
-                        link(cell, next);
+                        maze.link(cell, next);
 
                         next_row.record(row_state.set_for(cell), cell->down);
                     }
