@@ -42,6 +42,13 @@ class SvgWriter
     : public IWriter
 {
   public:
+    SvgWriter(const IMaze& maze);
+    ~SvgWriter();
+
+    void write(const std::string &filename);
+
+private:
+    const IMaze& maze;
 };
 }
 

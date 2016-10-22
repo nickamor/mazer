@@ -25,17 +25,18 @@ public:
 struct Edge
 {
 public:
-  int x1, y1, x2, y2;
-  Edge(int x1, int y1, int x2, int y2);
+    int x1, y1, x2, y2;
+    bool special;
 
-  bool operator<(const Edge &rhs) const;
-
-  bool operator>(const Edge &rhs) const;
-
-  bool operator<=(const Edge &rhs) const;
-
-  bool operator>=(const Edge &rhs) const;
 };
+
+inline bool operator<(const Edge &lhs, const Edge &rhs)
+{
+    return lhs.x1 < rhs.x1
+           || (rhs.x1 >= lhs.x1 && lhs.y1 < rhs.y1)
+           || (rhs.y1 >= lhs.y1 && lhs.x2 < rhs.x2)
+           || (rhs.x2 >= lhs.x2 && lhs.y2 < rhs.y2);
+}
 
 class IMaze
 {

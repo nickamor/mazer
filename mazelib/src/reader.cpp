@@ -10,6 +10,7 @@ using namespace mazer;
 struct EdgedCell
 {
 public:
+    int i;
     bool up, down, left, right;
 };
 
@@ -33,10 +34,38 @@ void BinaryReader::read(const std::string &filename)
 
     file.read((char *)(&width), sizeof(int));
     file.read((char *)(&height), sizeof(int));
+
     file.read((char *)(&num_edges), sizeof(int));
 
-    std::vector<Edge> edges;
-    std::vector<EdgedCell> edgedCells(unsigned(width * height));
+    std::vector<EdgedCell> edgedCells;
+    for (int i = 0; i < height; ++i)
+        for (int j = 0; j < width; ++j){
+        {
+            EdgedCell e{(i * width) + j, false, false, false, false};
+
+            if (i == 0)
+            {
+                e.up = true;
+            }
+
+            if (i == height - 1)
+            {
+                e.down = true;
+            }
+
+            if (j == 0)
+            {
+                e.left = true;
+            }
+
+            if (j == width - 1)
+            {
+                e.right = true;
+            }
+
+            edgedCells.push_back(e);
+        }
+    }
 
     for (int i = 0; i < num_edges; ++i)
     {
@@ -47,7 +76,10 @@ void BinaryReader::read(const std::string &filename)
         file.read((char *)(&x2), sizeof(int));
         file.read((char *)(&y2), sizeof(int));
 
-//        edges.emplace_back(x1, y1, x2, y2);
+        if (x2 == width || y2 == height)
+        {
+            continue;
+        }
 
         if (x1 < x2) {
             // horizontal edge
@@ -56,22 +88,31 @@ void BinaryReader::read(const std::string &filename)
         } else if (y1 < y2) {
             // vertical edge
             edgedCells[(y1 * width) + x1].left = true;
-            edgedCells[(y2 * width) + x2].right = true;
+            edgedCells[(y2 * width) + x2].left = true;
         }
     }
-
-//    file.close();
 
     maze.clear();
     maze.resize(width, height);
 
-//    for (auto& edge : edges)
-//    {
-//        int id = (edge.y1 * width) + edge.x1;
-//
-//        if (edge.x2 > edge.x1)
-//        {
-//            cells[id].link(cells[id].left);
-//        }
-//    }
+    for (int i = 0; i < width * height; ++i) {
+        auto& cellEdges = edgedCells[i];
+        auto& cell = maze.getCell(i);
+
+        if (!cellEdges.up) {
+            maze.link(&cell, cell.up);
+        }
+
+        if (!cellEdges.down) {
+            maze.link(&cell, cell.down);
+        }
+
+        if (!cellEdges.left) {
+            maze.link(&cell, cell.left);
+        }
+
+        if (!cellEdges.right) {
+            maze.link(&cell, cell.right);
+        }
+    }
 }

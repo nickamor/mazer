@@ -27,23 +27,19 @@ void DrawableMaze::draw(SDL_Renderer *renderer)
     static const int tile = 48;
 
     // draw edges
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (auto &edge : getEdges())
     {
+        if (edge.special) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        }
+
         SDL_RenderDrawLine(renderer,
                            origin.x + edge.x1 * tile,
                            origin.y + edge.y1 * tile,
                            origin.x + edge.x2 * tile,
                            origin.y + edge.y2 * tile);
-    }
-
-    // draw solution path
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    for (auto &cell : getSolution())
-    {
-        SDL_RenderDrawPoint(renderer,
-                            5 + 24 + cell->x * tile,
-                            5 + 24 + cell->y * tile);
     }
 }
 
@@ -87,14 +83,17 @@ void App::run()
                         maze->generate<AldousBroderGen>();
                         maze->solve();
                         break;
-                case SDLK_F1:
-                    maze->write("maze.bin");
-                    break;
-                case SDLK_F2:
-                    maze = std::make_unique<DrawableMaze>(10, 10);
-                    maze->read("maze.bin");
-                    maze->solve();
-                    break;
+                    case SDLK_F1:
+                        maze->write("maze.bin");
+                        break;
+                    case SDLK_F5:
+                        maze->write<SvgWriter>("maze.svg");
+                        break;
+                    case SDLK_F2:
+                        maze = std::make_unique<DrawableMaze>(10, 10);
+                        maze->read("maze.bin");
+                        maze->solve();
+                        break;
                 default:
                     break;
                 }

@@ -21,11 +21,11 @@ void BinWriter::write(const std::string &filename)
     file.exceptions(std::ios::badbit | std::ios::failbit);
 
     auto edges = maze.getEdges();
-    int width = maze.getWidth(), height = maze.getHeight(), num_edges = int(edges.size());
+    int width = maze.getWidth(), height = maze.getHeight(), numEdges = int(edges.size());
 
     file.write(reinterpret_cast<const char *>(&width), sizeof(int));
     file.write(reinterpret_cast<const char *>(&height), sizeof(int));
-    file.write(reinterpret_cast<const char *>(&num_edges), sizeof(int));
+    file.write(reinterpret_cast<const char *>(&numEdges), sizeof(int));
 
     for (auto& edge : edges)
     {

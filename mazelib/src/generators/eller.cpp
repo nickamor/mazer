@@ -13,11 +13,11 @@ struct RowState
   public:
     using Set = int;
 
-    RowState(Set starting_set = 0) : next_set(starting_set) {}
+    RowState(Set startingSet = 0) : nextSet(startingSet) {}
 
-    std::map<Set, std::vector<Cell *>> cells_in_set;
-    std::map<int, Set> set_for_cell;
-    Set next_set;
+    std::map<Set, std::vector<Cell *>> cellsInSet;
+    std::map<int, Set> setForCell;
+    Set nextSet;
 
     /**
      * Records a given set for the given cell.
@@ -27,9 +27,9 @@ struct RowState
      */
     void record(Set set, Cell *cell)
     {
-        set_for_cell[cell->x] = set;
+        setForCell[cell->x] = set;
 
-        cells_in_set[set].emplace_back(cell);
+        cellsInSet[set].emplace_back(cell);
     }
 
     /**
@@ -38,15 +38,15 @@ struct RowState
      * @param cell
      * @return
      */
-    Set set_for(Cell *cell)
+    Set setFor(Cell *cell)
     {
-        if (set_for_cell.find(cell->x) == set_for_cell.end())
+        if (setForCell.find(cell->x) == setForCell.end())
         {
-            record(next_set, cell);
-            next_set += 1;
+            record(nextSet, cell);
+            nextSet += 1;
         }
 
-        return set_for_cell[cell->x];
+        return setForCell[cell->x];
     }
 
     /**
@@ -57,13 +57,13 @@ struct RowState
      */
     void merge(Set winner, Set loser)
     {
-        for (auto cell : cells_in_set[loser])
+        for (auto cell : cellsInSet[loser])
         {
-            set_for_cell[cell->x] = winner;
-            cells_in_set[winner].emplace_back(cell);
+            setForCell[cell->x] = winner;
+            cellsInSet[winner].emplace_back(cell);
         }
 
-        cells_in_set[loser].clear();
+        cellsInSet[loser].clear();
     }
 
     /**
@@ -73,7 +73,7 @@ struct RowState
      */
     RowState next()
     {
-        return RowState(next_set);
+        return RowState(nextSet);
     }
 
     /**
@@ -81,11 +81,11 @@ struct RowState
      * collection of cells to the attached block.
      * @return
      */
-    std::vector<std::vector<Cell *>> each_set()
+    std::vector<std::vector<Cell *>> allSets()
     {
         std::vector<std::vector<Cell *>> sets;
 
-        for (auto pair : cells_in_set)
+        for (auto pair : cellsInSet)
         {
             sets.emplace_back(pair.second);
         }
@@ -105,7 +105,7 @@ EllerGen::~EllerGen()
 
 void EllerGen::generate()
 {
-    RowState row_state;
+    RowState rowState;
     int w = maze.getWidth(), h = maze.getHeight();
 
     // For each row
@@ -116,8 +116,8 @@ void EllerGen::generate()
         {
             auto& cell = maze.getCell(col, row);
 
-            auto set = row_state.set_for(&cell);
-            auto prior_set = row_state.set_for(cell.left);
+            auto set = rowState.setFor(&cell);
+            auto prior_set = rowState.setFor(cell.left);
 
             // Link this cell and the previous if they have distinct sets,
             // and either this is the last row or 50/50 chance
@@ -128,7 +128,7 @@ void EllerGen::generate()
                     auto next = cell.left;
                     maze.link(&cell, next);
 
-                    row_state.merge(prior_set, set);
+                    rowState.merge(prior_set, set);
                 }
             }
         }
@@ -137,10 +137,10 @@ void EllerGen::generate()
         if (row < h - 1)
         {
             // Prepare the next row state
-            auto next_row = row_state.next();
+            auto nextRow = rowState.next();
 
             // For each set of cells in the row
-            for (auto& list : row_state.each_set())
+            for (auto& list : rowState.allSets())
             {
                 std::shuffle(list.begin(), list.end(), engine);
 
@@ -154,12 +154,12 @@ void EllerGen::generate()
                         auto next = cell->down;
                         maze.link(cell, next);
 
-                        next_row.record(row_state.set_for(cell), cell->down);
+                        nextRow.record(rowState.setFor(cell), cell->down);
                     }
                 }
             }
 
-            row_state = next_row;
+            rowState = nextRow;
         }
     }
 }

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <random>
+#include <stdexcept>
 #include "mazer.h"
 
 using namespace mazer;
@@ -29,13 +30,13 @@ void Maze::clear()
 
 void Maze::resize(int w, int h)
 {
-    int num_cells = w * h;
+    int cellCount = w * h;
 
     // Construct a grid of Cells that are interlinked.
-    cells.resize(unsigned(num_cells));
+    cells.resize(unsigned(cellCount));
 
     // For every cell in the grid...
-    for (int i = 0; i < num_cells; ++i)
+    for (int i = 0; i < cellCount; ++i)
     {
         const int x = i % w;
         const int y = i / w;
@@ -104,6 +105,11 @@ Cell &Maze::getCell(int i) {
 
 void Maze::link(Cell *lhs, Cell *rhs)
 {
+    if (lhs == nullptr || rhs == nullptr)
+    {
+        throw std::invalid_argument("cell arguments must not be null");
+    }
+
     lhs->links.emplace_back(rhs);
     rhs->links.emplace_back(lhs);
 }
@@ -117,24 +123,34 @@ std::set<Edge> Maze::getEdges() const
 {
     std::set<Edge> edges;
 
-    for (auto &cell : cells)
+    auto emplaceCell = [](std::set<Edge>& edges, const Cell& cell, bool special)
     {
         if (!cell.linkedTo(cell.up))
         {
-            edges.emplace(cell.x, cell.y, cell.x + 1, cell.y);
+            edges.emplace(Edge{cell.x, cell.y, cell.x + 1, cell.y, special});
         }
         if (!cell.linkedTo(cell.down))
         {
-            edges.emplace(cell.x, cell.y + 1, cell.x + 1, cell.y + 1);
+            edges.emplace(Edge{cell.x, cell.y + 1, cell.x + 1, cell.y + 1, special});
         }
         if (!cell.linkedTo(cell.left))
         {
-            edges.emplace(cell.x, cell.y, cell.x, cell.y + 1);
+            edges.emplace(Edge{cell.x, cell.y, cell.x, cell.y + 1, special});
         }
         if (!cell.linkedTo(cell.right))
         {
-            edges.emplace(cell.x + 1, cell.y, cell.x + 1, cell.y + 1);
+            edges.emplace(Edge{cell.x + 1, cell.y, cell.x + 1, cell.y + 1, special});
         }
+    };
+
+    for (auto& cell : solution)
+    {
+        emplaceCell(edges, *cell, true);
+    }
+
+    for (auto& cell : cells)
+    {
+        emplaceCell(edges, cell, false);
     }
 
     return edges;
