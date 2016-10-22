@@ -30,11 +30,11 @@ void BfsSolver::solve()
 
     // The distance of a cell is the number of cells away from the start of the
     // grid, with the first cell having a distance of 1.
-    std::vector<int> distances(w * h);
+    std::vector<int> distances(unsigned(w * h));
 
     // The parent of a cell is it's BFS tree parent, and also the cell one
     // closer to the first cell than it.
-    std::vector<Cell *> parents(w * h);
+    std::vector<Cell *> parents(unsigned(w * h));
 
     auto &cells = maze.getCells();
 

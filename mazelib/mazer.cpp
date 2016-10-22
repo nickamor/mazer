@@ -2,13 +2,15 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
+#include <algorithm>
 #include <iostream>
 #include <random>
 #include "mazer.h"
 
 using namespace mazer;
 
-Maze::Maze(const unsigned w, const unsigned h) : w(w), h(h) {
+Maze::Maze(const unsigned w, const unsigned h) : w(w), h(h)
+{
     resize(w, h);
 }
 
@@ -74,12 +76,12 @@ std::vector<Cell> &Maze::getCells()
     return cells;
 }
 
-int Maze::getWidth()
+int Maze::getWidth() const
 {
     return w;
 }
 
-int Maze::getHeight()
+int Maze::getHeight() const
 {
     return h;
 }
@@ -89,30 +91,25 @@ const std::deque<Cell *> &Maze::getSolution()
     return solution;
 }
 
-std::set<Edge> Maze::getEdges()
+std::set<Edge> Maze::getEdges() const
 {
     std::set<Edge> edges;
 
-    auto isLinked = [](const Cell* lhs, const Cell* rhs) {
-        auto f = std::find(std::begin(lhs->links), std::end(lhs->links), rhs);
-        return f != std::end(lhs->links);
-    };
-
-    for (auto& cell : cells)
+    for (auto &cell : cells)
     {
-        if (!isLinked(&cell, cell.up))
+        if (!cell.linkedTo(cell.up))
         {
             edges.emplace(cell.x, cell.y, cell.x + 1, cell.y);
         }
-        if (!isLinked(&cell, cell.down))
+        if (!cell.linkedTo(cell.down))
         {
             edges.emplace(cell.x, cell.y + 1, cell.x + 1, cell.y + 1);
         }
-        if (!isLinked(&cell, cell.left))
+        if (!cell.linkedTo(cell.left))
         {
             edges.emplace(cell.x, cell.y, cell.x, cell.y + 1);
         }
-        if (!isLinked(&cell, cell.right))
+        if (!cell.linkedTo(cell.right))
         {
             edges.emplace(cell.x + 1, cell.y, cell.x + 1, cell.y + 1);
         }
