@@ -21,28 +21,28 @@ class Maze
 {
 public:
   Maze(const unsigned w, const unsigned h);
-    Maze(const Maze && maze);
+  Maze(const Maze &&maze);
   ~Maze();
 
   void clear();
 
   std::vector<Cell> &getCells();
-  int getWidth();
-  int getHeight();
+  int getWidth() const;
+  int getHeight() const;
 
   const std::deque<Cell *> &getSolution();
   void setSolution(const std::deque<Cell *> &path);
 
-    void resize(int w, int h);
+  void resize(int w, int h);
 
-    std::set<Edge> getEdges();
+  std::set<Edge> getEdges() const;
 
-    template <typename ReaderType>
-    static Maze read(const std::string& filename)
-    {
-        ReaderType reader();
-        return reader.read(filename);
-    }
+  //    template <typename ReaderType>
+  //    static Maze read(const std::string& filename)
+  //    {
+  //        ReaderType reader();
+  //        return reader.read(filename);
+  //    }
 
   template <typename WriterType>
   void write(const std::string &filename)
@@ -56,9 +56,10 @@ public:
   {
     GeneratorType generator(*this);
 
-      if (seed > 0) {
-          generator.seed(seed);
-      }
+    if (seed > 0)
+    {
+      generator.seed(seed);
+    }
 
     generator.generate();
   }

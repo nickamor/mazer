@@ -10,16 +10,16 @@ IReader::~IReader() {}
 
 BinaryReader::~BinaryReader() {}
 
-void BinaryReader::read(const std::string&)
+void BinaryReader::read(const std::string &)
 {
-//    IMaze& maze;
-//
-//    int w, h;
-//
-//    ostream os;
-//
-//    os.read(w);
-//    os.read(h);
-//
-//    maze.resize(w, h);
+    //    IMaze& maze;
+    //
+    //    int w, h;
+    //
+    //    ostream os;
+    //
+    //    os.read(w);
+    //    os.read(h);
+    //
+    //    maze.resize(w, h);
 }

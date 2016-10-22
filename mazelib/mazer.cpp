@@ -9,7 +9,8 @@
 
 using namespace mazer;
 
-Maze::Maze(const unsigned w, const unsigned h) : w(w), h(h) {
+Maze::Maze(const unsigned w, const unsigned h) : w(w), h(h)
+{
     resize(w, h);
 }
 
@@ -75,12 +76,12 @@ std::vector<Cell> &Maze::getCells()
     return cells;
 }
 
-int Maze::getWidth()
+int Maze::getWidth() const
 {
     return w;
 }
 
-int Maze::getHeight()
+int Maze::getHeight() const
 {
     return h;
 }
@@ -90,16 +91,16 @@ const std::deque<Cell *> &Maze::getSolution()
     return solution;
 }
 
-std::set<Edge> Maze::getEdges()
+std::set<Edge> Maze::getEdges() const
 {
     std::set<Edge> edges;
 
-    auto isLinked = [](const Cell* lhs, const Cell* rhs) {
+    auto isLinked = [](const Cell *lhs, const Cell *rhs) {
         auto f = std::find(std::begin(lhs->links), std::end(lhs->links), rhs);
         return f != std::end(lhs->links);
     };
 
-    for (auto& cell : cells)
+    for (auto &cell : cells)
     {
         if (!isLinked(&cell, cell.up))
         {

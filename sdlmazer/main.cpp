@@ -1,14 +1,11 @@
 
 #include <algorithm>
-#include <cstdlib>
 #include <deque>
-#include <exception>
 #include <iostream>
 #include <memory>
 #include <random>
-#include <vector>
-#include "mazer.h"
 #include "SDL.h"
+#include "mazer.h"
 #include "main.h"
 
 using namespace mazer;
@@ -31,14 +28,13 @@ void DrawableMaze::draw(SDL_Renderer *renderer)
 
     // draw edges
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    for(auto &edge : getEdges())
+    for (auto &edge : getEdges())
     {
         SDL_RenderDrawLine(renderer,
                            origin.x + edge.x1 * tile,
                            origin.y + edge.y1 * tile,
                            origin.x + edge.x2 * tile,
-                           origin.y + edge.y2 * tile
-        );
+                           origin.y + edge.y2 * tile);
     }
 
     // draw solution path
@@ -59,8 +55,8 @@ App::App()
 void App::run()
 {
     auto maze = std::make_unique<DrawableMaze>(10, 10);
-//    maze->generate();
-//    maze->solve();
+    //    maze->generate();
+    //    maze->solve();
 
     SDL_Event event;
     bool done = false;
@@ -88,8 +84,8 @@ void App::run()
                     break;
                 }
                 break;
-                default:
-                    break;
+            default:
+                break;
             }
         }
 

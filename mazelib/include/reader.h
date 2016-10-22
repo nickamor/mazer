@@ -13,17 +13,17 @@ namespace mazer
 
 class IReader
 {
-public:
+  public:
     virtual ~IReader() = 0;
-    virtual void read(const std::string& filename) = 0;
+    virtual void read(const std::string &filename) = 0;
 };
 
 class BinaryReader
     : public IReader
 {
-public:
+  public:
     ~BinaryReader();
-    void read(const std::string& filename);
+    void read(const std::string &filename);
 };
 }
 

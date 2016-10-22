@@ -1,0 +1,37 @@
+//
+// Created by nick on 22/10/16.
+//
+
+#include <fstream>
+#include "writer.h"
+
+using namespace mazer;
+
+BinWriter::BinWriter(const IMaze &maze) : maze(maze) {}
+
+void BinWriter::write(const std::string &filename)
+{
+    std::ofstream file(filename, std::ios::binary);
+
+    if (!file)
+    {
+        throw FailedOpeningFileException(filename);
+    }
+
+    file.exceptions(std::ios::badbit | std::ios::failbit);
+
+    auto edges = maze.getEdges();
+    int width = maze.getWidth(), height = maze.getHeight(), num_edges = int(edges.size());
+
+    file.write(reinterpret_cast<const char *>(&width), sizeof(int));
+    file.write(reinterpret_cast<const char *>(&height), sizeof(int));
+    file.write(reinterpret_cast<const char *>(&num_edges), sizeof(int));
+
+    for (auto& edge : edges)
+    {
+        file.write(reinterpret_cast<const char *>(&edge.x1), sizeof(int));
+        file.write(reinterpret_cast<const char *>(&edge.y1), sizeof(int));
+        file.write(reinterpret_cast<const char *>(&edge.x2), sizeof(int));
+        file.write(reinterpret_cast<const char *>(&edge.y2), sizeof(int));
+    }
+}
