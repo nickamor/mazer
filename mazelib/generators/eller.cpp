@@ -2,8 +2,11 @@
 // Created by Nicholas Amor on 21/10/16.
 //
 
+#include <algorithm>
 #include <map>
 #include "generator.h"
+
+using namespace mazer;
 
 struct RowState
 {

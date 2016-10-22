@@ -2,6 +2,7 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
+#include <algorithm>
 #include <iostream>
 #include <random>
 #include "mazer.h"

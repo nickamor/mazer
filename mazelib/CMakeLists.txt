@@ -7,4 +7,4 @@ set(SOURCES maze.cpp
     generators/aldousbroder.cpp
     generators/eller.cpp)
 add_library(mazelib ${SOURCES})
-target_include_directories (mazelib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories (mazelib PUBLIC include)

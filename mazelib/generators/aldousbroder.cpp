@@ -4,6 +4,8 @@
 
 #include "generator.h"
 
+using namespace mazer;
+
 AldousBroderGen::AldousBroderGen(IMaze &maze)
     : Generator(maze)
 {

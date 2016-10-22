@@ -4,6 +4,7 @@
 #include <deque>
 #include <exception>
 #include <iostream>
+#include <memory>
 #include <random>
 #include <vector>
 #include "mazer.h"
