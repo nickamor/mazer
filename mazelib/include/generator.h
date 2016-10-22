@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_GENERATOR_H
-#define LIBMAZER_GENERATOR_H
+#ifndef MAZELIB_GENERATOR_H
+#define MAZELIB_GENERATOR_H
 
 #include <random>
 #include "maze.h"
@@ -52,4 +52,4 @@ class EllerGen
 };
 }
 
-#endif //LIBMAZER_GENERATOR_H
+#endif //MAZELIB_GENERATOR_H

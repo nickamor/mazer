@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_WRITER_H
-#define LIBMAZER_WRITER_H
+#ifndef MAZELIB_WRITER_H
+#define MAZELIB_WRITER_H
 
 #include <stdexcept>
 #include <string>
@@ -45,4 +45,4 @@ class SvgWriter
 };
 }
 
-#endif //LIBMAZER_WRITER_H
+#endif //MAZELIB_WRITER_H

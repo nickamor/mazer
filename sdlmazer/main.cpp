@@ -41,7 +41,9 @@ void DrawableMaze::draw(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     for (auto &cell : getSolution())
     {
-        SDL_RenderDrawPoint(renderer, 5 + 24 + cell->x * tile, 5 + 24 + cell->y * tile);
+        SDL_RenderDrawPoint(renderer,
+                            5 + 24 + cell->x * tile,
+                            5 + 24 + cell->y * tile);
     }
 }
 
@@ -107,6 +109,7 @@ int main()
     }
     catch (std::exception &e)
     {
-        cerr << e.what() << endl;
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "A fatal error occurred.", e.what(), NULL);
+        return 1;
     }
 }

@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_MAZE_H
-#define LIBMAZER_MAZE_H
+#ifndef MAZELIB_MAZE_H
+#define MAZELIB_MAZE_H
 
 #include <deque>
 #include <vector>
@@ -21,6 +21,7 @@ public:
 
   Cell(int x, int y, int i);
   Cell();
+  bool linkedTo(const Cell *cell) const;
 };
 
 struct Edge
@@ -57,4 +58,4 @@ public:
 };
 }
 
-#endif //LIBMAZER_GENERATOR_H
+#endif //MAZELIB_GENERATOR_H

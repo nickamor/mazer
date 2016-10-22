@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_SOLVER_H
-#define LIBMAZER_SOLVER_H
+#ifndef MAZELIB_SOLVER_H
+#define MAZELIB_SOLVER_H
 
 #include <deque>
 #include "maze.h"
@@ -74,4 +74,4 @@ class DijkstraEuclidean
 };
 }
 
-#endif //LIBMAZER_SOLVER_H
+#endif //MAZELIB_SOLVER_H

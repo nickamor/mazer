@@ -95,26 +95,21 @@ std::set<Edge> Maze::getEdges() const
 {
     std::set<Edge> edges;
 
-    auto isLinked = [](const Cell *lhs, const Cell *rhs) {
-        auto f = std::find(std::begin(lhs->links), std::end(lhs->links), rhs);
-        return f != std::end(lhs->links);
-    };
-
     for (auto &cell : cells)
     {
-        if (!isLinked(&cell, cell.up))
+        if (!cell.linkedTo(cell.up))
         {
             edges.emplace(cell.x, cell.y, cell.x + 1, cell.y);
         }
-        if (!isLinked(&cell, cell.down))
+        if (!cell.linkedTo(cell.down))
         {
             edges.emplace(cell.x, cell.y + 1, cell.x + 1, cell.y + 1);
         }
-        if (!isLinked(&cell, cell.left))
+        if (!cell.linkedTo(cell.left))
         {
             edges.emplace(cell.x, cell.y, cell.x, cell.y + 1);
         }
-        if (!isLinked(&cell, cell.right))
+        if (!cell.linkedTo(cell.right))
         {
             edges.emplace(cell.x + 1, cell.y, cell.x + 1, cell.y + 1);
         }

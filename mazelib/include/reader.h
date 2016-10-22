@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_READER_H
-#define LIBMAZER_READER_H
+#ifndef MAZELIB_READER_H
+#define MAZELIB_READER_H
 
 #include <string>
 #include "maze.h"
@@ -27,4 +27,4 @@ class BinaryReader
 };
 }
 
-#endif //LIBMAZER_READER_H
+#endif //MAZELIB_READER_H

@@ -2,8 +2,8 @@
 // Created by Nicholas Amor on 14/10/16.
 //
 
-#ifndef LIBMAZER_MAZER_H
-#define LIBMAZER_MAZER_H
+#ifndef MAZELIB_MAZER_H
+#define MAZELIB_MAZER_H
 
 #include <vector>
 #include <deque>
@@ -79,4 +79,4 @@ private:
 };
 }
 
-#endif //LIBMAZER_MAZER_H
+#endif //MAZELIB_MAZER_H
