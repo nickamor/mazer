@@ -1,5 +1,5 @@
 //
-// Created by nick on 22/10/16.
+// Created by Nicholas Amor on 22/10/16.
 //
 
 #include <fstream>
@@ -27,7 +27,7 @@ void BinWriter::write(const std::string &filename)
     file.write(reinterpret_cast<const char *>(&height), sizeof(int));
     file.write(reinterpret_cast<const char *>(&numEdges), sizeof(int));
 
-    for (auto& edge : edges)
+    for (auto &edge : edges)
     {
         file.write(reinterpret_cast<const char *>(&edge.x1), sizeof(int));
         file.write(reinterpret_cast<const char *>(&edge.y1), sizeof(int));

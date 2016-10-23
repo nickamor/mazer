@@ -1,0 +1,27 @@
+C++ 2016 Assignment 2
+Prepared by Nicholas Amor s3240873
+
+Build:
+Run the following commands on a commandline;
+mkdir build
+cd build
+cmake ..
+make
+
+Run:
+Run the executable produced by the build (./mazer/mazer) with the following
+arguments:
+
+--g seed width height   Generate a maze of size (width * height) from the given
+                        seed
+--ga seed width height  Generate using the Aldous-Broder algorithm (default)
+--ge seed width height  Generate using the Eller algorithm
+--pb                    Solve the current maze using Breadth-First Search
+--pd                    Solve the current maze using Depth-First Search
+--pm                    Solve the current maze using Dijkstra’s algorithm with 
+                        manhattan distance heuristic
+--pe                    Solve the current maze using Dijkstra’s algorithm with 
+                        euclidean distance heuristic
+--lb filename           Load the given filename as a binary maze file
+--sb filename           Save the current maze to a binary maze file at filename
+--sv filename           Save the current maze as an SVG document
