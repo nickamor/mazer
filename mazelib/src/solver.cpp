@@ -10,8 +10,3 @@ using namespace mazer;
 ISolver::~ISolver() {}
 
 void ISolver::solve() {}
-
-void DijkstraSolver::solve()
-{
-    heuristic(0, 0);
-}

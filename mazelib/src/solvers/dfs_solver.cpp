@@ -6,6 +6,9 @@
 #include <stack>
 #include "solver.h"
 
+#include <iostream>
+using namespace std;
+
 using namespace mazer;
 
 DfsSolver::DfsSolver(IMaze &maze) : maze(maze) {}
@@ -15,11 +18,10 @@ DfsSolver::~DfsSolver() {}
 void DfsSolver::solve()
 {
     std::vector<bool> visited(maze.getCells().size());
-
-    std::vector<Cell *> parent(maze.getCells().size());
-
+    std::vector<Cell *> parents(maze.getCells().size());
     std::stack<Cell *> stack;
 
+    visited[0] = true;
     stack.push(&maze.getCell(0));
 
     while (!stack.empty())
@@ -27,25 +29,24 @@ void DfsSolver::solve()
         auto& current = stack.top();
         stack.pop();
 
-        if (!visited[current->i])
+        for (auto& next : current->links)
         {
-            visited[current->i] = true;
-
-            for (auto& next : current->links)
+            if (!visited[next->i])
             {
-                parent[next->i] = current;
+                visited[next->i] = true;
+                parents[next->i] = current;
 
                 stack.push(next);
             }
         }
     }
 
-    auto node = &maze.getCell(maze.getCells().size() - 1);
+    auto curr = &maze.getCell(maze.getCells().size() - 1);
     std::list<Cell *> solution;
-    while (node && parent[node->i])
+    while (curr && parents[curr->i])
     {
-        solution.push_front(node);
-        node = parent[node->i];
+        solution.push_front(curr);
+        curr = parents[curr->i];
     }
     if (solution.size() > 0)
     {

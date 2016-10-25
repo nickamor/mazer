@@ -12,8 +12,13 @@ using namespace mazer;
 
 Maze::Maze(const unsigned w, const unsigned h) : w(w), h(h)
 {
-    resize(w, h);
+    if (w > 0 && h > 0)
+    {
+        resize(w, h);
+    }
 }
+
+Maze::Maze() : Maze(0, 0) {}
 
 Maze::~Maze() {}
 

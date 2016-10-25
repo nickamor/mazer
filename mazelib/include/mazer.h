@@ -21,7 +21,7 @@ class Maze
 {
 public:
   Maze(const unsigned w, const unsigned h);
-  Maze(const Maze &&maze);
+    Maze();
   ~Maze();
 
   void clear();

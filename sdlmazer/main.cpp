@@ -85,6 +85,12 @@ void App::run()
                     case SDLK_w:
                         maze->solve<DfsSolver>();
                         break;
+                    case SDLK_e:
+                        maze->solve<DijkstraManhattan>();
+                        break;
+                    case SDLK_r:
+                        maze->solve<DijkstraEuclidean>();
+                        break;
                     case SDLK_F1:
                         maze->write("maze.bin");
                         break;

@@ -57,7 +57,7 @@ class DijkstraSolver
     ~DijkstraSolver();
 
     void solve();
-    virtual int heuristic(const int x, const int y) = 0;
+    virtual int heuristic(const Cell* cell) = 0;
 
   protected:
     IMaze &maze;
@@ -69,13 +69,20 @@ class DijkstraManhattan
   public:
     DijkstraManhattan(IMaze &maze);
     ~DijkstraManhattan();
+
+    int heuristic(const Cell* cell);
+
 };
 
 class DijkstraEuclidean
     : public DijkstraSolver
 {
+public:
     DijkstraEuclidean(IMaze &maze);
     ~DijkstraEuclidean();
+
+    int heuristic(const Cell* cell);
+
 };
 }
 

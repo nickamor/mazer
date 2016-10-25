@@ -4,66 +4,40 @@
 
 #include <exception>
 #include <iostream>
+#include <memory>
 #include "mazer.h"
+#include "argumentparser.h"
+#include "task.h"
+#include "timer.h"
 
 using namespace std;
 
 using namespace mazer;
 
-class Timer
-{
-  public:
-    void start();
-    void stop();
-    auto getTime();
-
-}
-
-#include <string>
-
-class Task
-{
-  public:
-    void run();
-
-    string name();
-    double time();
-
-}
-
-#include <list>
-
-class ArgumentParser
-{
-  public:
-    ArgumentParser(int argc, char *argv[]);
-    list<Task> getTasks();
-
-}
-
 ostream &
 operator<<(ostream &os, const Timer &timer)
 {
-    os << timer.getTime();
+    os << timer.time();
     return os;
 }
 
 int main(int argc, char *argv[])
 {
-    auto &tasks = ArgumentParser(argc, argv).getTasks();
-    auto &maze = make_shared<Maze>();
+    auto parser = ArgumentParser(argc, argv);
+    shared_ptr<IMaze> maze = make_shared<Maze>();
 
-    for (auto &task : tasks)
+    for (auto &task : parser.tasks())
     {
         try
         {
-            maze = task.run(maze);
-            cout << "Task " << task.name();
-            cout << " completed in: \t" task.time() << " ms.\n";
+            maze = task->run(maze);
+            cout << "Task " << task->name();
+            cout << " completed in: \t" << task->time() << " ms.\n";
         }
         catch (exception &e)
         {
-            cerr << "Error in task " << task.name() << ", " << e.what() << endl;
+            cerr << "Error in task " << task->name()
+                 << ", " << e.what() << endl;
         }
     }
 }
