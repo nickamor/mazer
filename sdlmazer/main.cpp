@@ -82,9 +82,9 @@ void App::run()
                     case SDLK_q:
                         maze->solve();
                         break;
-                    case SDLK_w:
-                        maze->solve<DfsSolver>();
-                        break;
+//                  case SDLK_w:
+//                      maze->solve<DfsSolver>();
+//                      break;
                     case SDLK_F1:
                         maze->write("maze.bin");
                         break;
