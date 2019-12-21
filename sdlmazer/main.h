@@ -17,11 +17,15 @@ public:
 class App
 {
 public:
+  static const int tile;
+  static const std::string help;
+
   App();
   void run();
 
 private:
-  static const int tile = 48;
+  int maze_width = 10;
+  int maze_height = 10;
 
   SDL_Window *window;
   SDL_Renderer *renderer;

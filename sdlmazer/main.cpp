@@ -5,6 +5,7 @@
 #include <memory>
 #include <random>
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "mazer.h"
 #include "main.h"
 
@@ -18,13 +19,13 @@ void IDrawable::draw(SDL_Renderer *) {}
 
 DrawableMaze::DrawableMaze(const unsigned w, const unsigned h) : Maze(w, h)
 {
-    origin.x = 5;
-    origin.y = 5;
+    origin.x = 272;
+    origin.y = 144;
 }
 
 void DrawableMaze::draw(SDL_Renderer *renderer)
 {
-    static const int tile = 48;
+    static const int & tile = App::tile;
 
     // draw edges
     for (auto &edge : getEdges())
@@ -32,7 +33,7 @@ void DrawableMaze::draw(SDL_Renderer *renderer)
         if (edge.special) {
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         } else {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         }
 
         SDL_RenderDrawLine(renderer,
@@ -43,6 +44,10 @@ void DrawableMaze::draw(SDL_Renderer *renderer)
     }
 }
 
+const int App::tile = 48;
+
+const std::string App::help = "Hello World";
+
 App::App()
 {
     SDL_CreateWindowAndRenderer(1024, 768, 0, &window, &renderer);
@@ -52,7 +57,7 @@ App::App()
 
 void App::run()
 {
-    auto maze = std::make_unique<DrawableMaze>(10, 10);
+    auto maze = std::make_unique<DrawableMaze>(maze_width, maze_height);
 
     SDL_Event event;
     bool done = false;
@@ -105,8 +110,10 @@ void App::run()
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
+
+
 
         maze->draw(renderer);
 
@@ -116,15 +123,15 @@ void App::run()
 
 int main()
 {
-//    try
-//    {
+   try
+   {
         App app;
         app.run();
-//    }
-//    catch (std::exception &e)
-//    {
-//        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "A fatal error occurred.", e.what(), NULL);
-//
-//        return 1;
-//    }
+   }
+   catch (std::exception &e)
+   {
+       SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "A fatal error occurred.", e.what(), NULL);
+
+       return 1;
+   }
 }

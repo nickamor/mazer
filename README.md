@@ -4,7 +4,7 @@ Generates solvable mazes using configurable algorithms. Originally completed for
 ![Screenshot showing a randomly-generated maze](public/screenshot.png)
 
 ## Building
-Depends on SDL2, SDL2-image, SDL2-mixer, SDL2-ttf and SDL2-net. Build with `mkdir build; cd build; cmake ..`.
+Depends on SDL2, SDL2-image, SDL2-mixer, SDL2-ttf and SDL2-net. Build with `mkdir build; cd build; cmake ..; make`.
 
 ## Running
 Keys:
